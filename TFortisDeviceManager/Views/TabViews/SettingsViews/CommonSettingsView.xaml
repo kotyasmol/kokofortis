@@ -1,0 +1,91 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels" 
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties" 
+             xmlns:models="clr-namespace:TFortisDeviceManager.Models" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:CommonSettingsViewModel}"
+             x:Class="TFortisDeviceManager.Views.CommonSettingsView"
+             mc:Ignorable="d" 
+             d:DesignHeight="560" d:DesignWidth="860">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="431*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Left" Width="564">
+
+                <TextBlock Text="{x:Static properties:Resources.CommonSettings}" Margin="10,30,0,0" FontWeight="Bold" FontSize="14"/>
+                <Border  BorderBrush="#FFD0D1D7" BorderThickness="0,0,0,1" Height="35" SnapsToDevicePixels="True" Width="531">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" >
+                        <DockPanel Width="320">
+                            <TextBlock Text="{x:Static properties:Resources.KeepEventInDatabase}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" Width="140" >
+                            <hc:NumericUpDown  Value="{Binding KeepEventInDatabase, Mode=TwoWay}" Minimum="90"/>
+                            <TextBlock Text="{x:Static properties:Resources.Days}" Width="60" TextBlock.FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border  BorderBrush="#FFD0D1D7" BorderThickness="0,0,0,1" Height="35" SnapsToDevicePixels="True" Width="531">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" >
+                        <DockPanel Width="320">
+                            <TextBlock Text="{x:Static properties:Resources.MapProvider}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" Width="140" >
+                            <hc:ComboBox Width="120" ItemsSource="{Binding ProvidersDict}" SelectedValue="{Binding SelectedProvider}">
+                               
+                            </hc:ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border  BorderBrush="#FFD0D1D7" Margin="10,0" BorderThickness="0,0,0,1" Height="35" SnapsToDevicePixels="True" Width="530">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                        <DockPanel Width="320">
+                            <TextBlock Text="{x:Static properties:Resources.AppLanguage}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" Width="140">
+                            <hc:ComboBox Width="120"
+                                         x:Name="ComboBoxSelectLanguage"
+                                         ItemsSource="{Binding LanguageDict, Mode=OneWay}"
+                                         DisplayMemberPath="Value"
+                                         SelectedValuePath="Key"
+                                         SelectedValue="{Binding AppLanguage, Mode=TwoWay}" 
+                                         />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border  BorderBrush="#FFD0D1D7" Margin="10,0" BorderThickness="0,0,0,1" Height="35" SnapsToDevicePixels="True" Width="530">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                        <DockPanel Width="320">
+                            <TextBlock Text="{x:Static properties:Resources.Theme}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                        </DockPanel>
+                        <StackPanel Orientation="Horizontal" Width="140">
+                            <hc:ComboBox Width="120"
+                          x:Name="ComboBoxSelectTheme"
+                          ItemsSource="{Binding ThemeDict, Mode=OneWay}"
+                          DisplayMemberPath="Value"
+                          SelectedValuePath="Key"
+                          SelectedValue="{Binding AppTheme, Mode=TwoWay}"
+                          SelectionChanged="{s:Action ChangeThemeCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>

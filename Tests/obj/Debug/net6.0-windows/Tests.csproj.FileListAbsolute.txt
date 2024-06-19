@@ -1,0 +1,5 @@
+C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\Tests\obj\Debug\net6.0-windows\Tests.csproj.AssemblyReference.cache
+C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\Tests\obj\Debug\net6.0-windows\Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\Tests\obj\Debug\net6.0-windows\Tests.AssemblyInfoInputs.cache
+C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\Tests\obj\Debug\net6.0-windows\Tests.AssemblyInfo.cs
+C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\Tests\obj\Debug\net6.0-windows\Tests.csproj.CoreCompileInputs.cache

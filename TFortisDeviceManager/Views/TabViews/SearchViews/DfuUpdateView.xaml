@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.DfuUpdateView"          
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+             xmlns:hc="https://handyorg.github.io/handycontrol"        
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:views="clr-namespace:TFortisDeviceManager.Views"
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+             xmlns:s="https://github.com/canton7/Stylet"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=viewmodels:DfuUpdateViewModel}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition MaxHeight="90" Height="90"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" 
+            Orientation="Vertical" 
+            HorizontalAlignment="Center"
+            Width="500" 
+            IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+           
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,70,0,70">
+                <TextBox Width="300" Text="{Binding SelectedDfuFile, Mode=TwoWay}" IsReadOnly="True"/>
+                <Button IsEnabled="{Binding CanSelectFile}" BorderThickness="0" Background="Transparent" Command="{s:Action SelectFileCommand}" Margin="10,0,0,0" Cursor="Hand" >
+                    <iconPacks:PackIconMaterial Kind="Folder"/>
+                </Button>
+
+                <Button Command="{s:Action UploadDfuCommand}"                            
+                        IsEnabled="{Binding CanStartUpload}" 
+                        Style="{StaticResource ButtonPrimary}" 
+                        Margin="10,0,0,0" 
+                        Cursor="Hand">
+
+                    <iconPacks:PackIconMaterial Kind="Upload"/>
+
+                </Button>
+
+            </StackPanel>
+
+            <TextBlock Text="{Binding Message}" Height="100" TextAlignment="Center" HorizontalAlignment="Center" FontSize="15"/>
+
+            <StackPanel Height="200">
+            <hc:CircleProgressBar Width="150" 
+                                  Height="150" 
+                                  Visibility="{Binding DfuUpdatingInProgress, Converter={StaticResource Boolean2VisibilityConverter}}" 
+                                  Value="{Binding DfuUpdatingProgress}" 
+                                  FontSize="40"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button Width="150" 
+                Grid.Row="1"
+                Margin="30"
+                IsEnabled="{Binding CanStartUpdate}"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource ButtonPrimary}" 
+                Cursor="Hand" 
+                Content="{x:Static properties:Resources.Update}" 
+                Command="{s:Action UpdateDfuCommand}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,360 @@
+﻿<hc:Window x:Class="TFortisDeviceManager.Views.RootView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+           xmlns:viewModels="clr-namespace:TFortisDeviceManager.ViewModels"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+           mc:Ignorable="d"
+           d:DataContext="{d:DesignInstance Type=viewModels:RootViewModel}"
+           Title="{Binding Title}"  
+           xmlns:s="https://github.com/canton7/Stylet" 
+           xmlns:infrastructure="clr-namespace:TFortisDeviceManager.Infrastructure"
+           WindowStartupLocation="CenterScreen"
+           WindowState="Maximized"
+           IsFullScreen="{Binding IsFullScreen}"
+           ShowTitle="True"
+           SnapsToDevicePixels="True"
+           Icon="\TFortisDeviceManager;component\Views\Images\icon.ico"
+           Height="1000" 
+           Width="1440"
+           x:Name="Root">
+
+    <hc:Window.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="MainMenuIconStyle"  TargetType="iconPacks:PackIconMaterial">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                <Setter Property="Width" Value="24"/>
+                <Setter Property="Height" Value="24"/>
+            </Style>
+            <Style x:Key="MainMenuIconStyle2"  TargetType="ContentControl">
+                <Setter Property="Background" Value="{DynamicResource PrimaryTextBrush}"/>
+                <Setter Property="Width" Value="24"/>
+                <Setter Property="Height" Value="24"/>
+            </Style>
+
+            <DataTemplate x:Key="ShowInfoTemplate">
+                <TextBlock Text="{Binding ElementName=Root, Path=DataContext.Info, Mode=OneWay}" 
+                           Padding="5"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="EmptyTemplate">
+            </DataTemplate>
+
+            <infrastructure:InfoTemplateSelector x:Key="InfoTemplateSelector"
+                                             EmptyTemplate="{StaticResource EmptyTemplate}"
+                                             InfoTemplate="{StaticResource ShowInfoTemplate}"/>
+        </ResourceDictionary>
+    </hc:Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition>
+                <ColumnDefinition.Style>
+                    <Style TargetType="{x:Type ColumnDefinition}">
+                        <Setter Property="Width" Value="210" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=MenuSizeButton, Path=IsChecked}" Value="True">
+                                <Setter Property="Width" Value="48" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ColumnDefinition.Style>
+            </ColumnDefinition>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="18"/>
+        </Grid.RowDefinitions>
+
+        <hc:NotifyIcon Text="TFortisDeviceManager" Click="NotifyIcon_Click">
+            <hc:NotifyIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="MenuItemExpand_Click"  Header="{x:Static properties:Resources.Expand}"/>
+                    <MenuItem Click="MenuItemClose_Click"  Header="{x:Static properties:Resources.Exit}"/>
+                </ContextMenu>
+            </hc:NotifyIcon.ContextMenu>
+        </hc:NotifyIcon>
+
+        <Grid Grid.Row="0" Grid.Column="0"
+              Background="{DynamicResource RegionBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="257.907"/>
+                <RowDefinition Height="60.093"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <hc:SideMenu Grid.Row="0"
+                         AutoSelect="True"
+                         Visibility="{Binding ElementName=OpenSettingsButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityReConverter}}"
+                         x:Name="MainSideMenu" Grid.RowSpan="2">
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MainMenuSearch}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="MainMenuSearchTag"
+                                 ToolTip="{x:Static properties:Resources.MainMenuSearch}"
+                                 Cursor="Hand"
+                                 Margin="0,30,0,0">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="SearchWeb" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MainMenuMonitoring}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="MainMenuMonitoringTag"
+                                 ToolTip="{x:Static properties:Resources.MainMenuMonitoring}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="MonitorEye" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MainMenuMap}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="MainMenuMapTag"
+                                 ToolTip="{x:Static properties:Resources.MainMenuMap}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Lan" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MainMenuGMap}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="GMapTag"
+                                 ToolTip="{x:Static properties:Resources.MainMenuGMap}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="MapMarker" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                ----------------------------------------- НОВАЯ КНОПОЧКА ----------------------------------------------------
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MainMenuGraphics}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="Graphics"
+                                 ToolTip="{x:Static properties:Resources.MainMenuGraphics}"
+                                 Margin="0,-50,0,0" 
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ChartBar" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                -------------------------------------- ДАЛЬШЕ НЕ ТРОГАТЬ -----------------------------------------------------
+            </hc:SideMenu>
+
+            <hc:SideMenu Grid.Row="0"
+                         Visibility="{Binding ElementName=OpenSettingsButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityConverter}}"
+                         x:Name="SettingsSideMenu" Grid.RowSpan="2">
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.CommonSettings}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuCommonTag"
+                                 ToolTip="{x:Static properties:Resources.CommonSettings}"
+                                 Margin="0,30,0,0"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ApplicationCogOutline" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.AlertSettings}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuAlertTag"
+                                 ToolTip="{x:Static properties:Resources.AlertSettings}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <ContentControl Template="{DynamicResource BellCogOutline}" 
+                                        Style="{StaticResource MainMenuIconStyle2}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.SearchSettings}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuSearchTag"
+                                 ToolTip="{x:Static properties:Resources.SearchSettings}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="SearchWeb" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MonitoringSettings}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuMonitoringTag"
+                                 ToolTip="{x:Static properties:Resources.MonitoringSettings}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="MonitorEye" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.About}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuAboutTag"
+                                 ToolTip="{x:Static properties:Resources.About}"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Information" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+
+
+                <hc:SideMenuItem Header="{x:Static properties:Resources.MapSettings}"
+                                 Command="{s:Action SwitchScreenCommand}"
+                                 CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                                 Tag="SettingsMenuMapTag"
+                                 ToolTip="{x:Static properties:Resources.MapSettings}"
+                                 Visibility="Hidden"
+                                 Cursor="Hand">
+                    <hc:SideMenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Lan" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:SideMenuItem.Icon>
+                </hc:SideMenuItem>
+            </hc:SideMenu>
+
+            <StackPanel Grid.Row="2" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Left">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Orientation" Value="Horizontal"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=MenuSizeButton, Path=IsChecked}" Value="True">
+                                <Setter Property="Orientation" Value="Vertical" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+                <ToggleButton BorderThickness="0" 
+                              IsChecked="False"
+                              Margin="12 6 6 6"
+                              Style="{StaticResource ToggleButtonCustom}"
+                              hc:StatusSwitchElement.HideUncheckedElement="True"
+                              x:Name="OpenSettingsButton"
+                              ToolTip="{x:Static properties:Resources.MainMenuSettings}"
+                              Cursor="Hand">
+
+                    <hc:Interaction.Triggers>
+                        <hc:EventTrigger EventName="Checked">
+                            <hc:EventToCommand Command="{s:Action OpenSettingsScreenCommand}"/>
+                        </hc:EventTrigger>
+
+                        <hc:EventTrigger EventName="Unchecked">
+                            <hc:EventToCommand Command="{s:Action CloseSettingsScreenCommand}"/>
+                        </hc:EventTrigger>
+                    </hc:Interaction.Triggers>
+
+                    <hc:StatusSwitchElement.CheckedElement>
+                        <iconPacks:PackIconMaterial Kind="CogOffOutline" Style="{StaticResource MainMenuIconStyle}"/>
+                    </hc:StatusSwitchElement.CheckedElement>
+                    <iconPacks:PackIconMaterial Kind="CogOutline" Style="{StaticResource MainMenuIconStyle}"/>
+                </ToggleButton>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ContentControl Grid.Row="0"
+                            Margin="5,5,5,5"
+                            s:View.Model="{Binding ActiveItem}" />
+
+            <ContentControl Grid.Row="1"                            
+                            Content="{Binding ActiveItem}" 
+                            ContentTemplateSelector="{StaticResource InfoTemplateSelector}"/>
+        </Grid>
+
+        <Border Grid.Row="1" Grid.Column="0"
+                Background="{DynamicResource BorderBrush}">
+            <ToggleButton  
+                      BorderThickness="0" 
+                      IsChecked="True"                                                            
+                      hc:StatusSwitchElement.HideUncheckedElement="True"
+                      x:Name="MenuSizeButton"
+                      HorizontalAlignment="Left"
+                      Margin="2 1"
+                      Cursor="Hand">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonCustom}">
+                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.CollapseMenu}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="ToolTip" Value="{x:Static properties:Resources.ExpandMenu}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+                <hc:StatusSwitchElement.CheckedElement>
+                    <iconPacks:PackIconMaterial Kind="UnfoldMoreVertical" Style="{StaticResource MainMenuIconStyle}"
+                                            Width="16" Height="16" Cursor="Hand"/>
+                </hc:StatusSwitchElement.CheckedElement>
+
+                <iconPacks:PackIconMaterial Kind="UnfoldLessVertical" Style="{StaticResource MainMenuIconStyle}"
+                                        Width="16" Height="16"/>
+            </ToggleButton>
+        </Border>
+
+
+
+
+        <Grid Grid.Row="1" Grid.Column="1"
+              Background="{DynamicResource BorderBrush}">
+            <Border Grid.Row="1" Grid.Column="1"
+                Background="{DynamicResource BorderBrush}">
+                <ToggleButton  
+                      BorderThickness="0" 
+                      IsChecked="{Binding IsFullScreen}"                                                            
+                      hc:StatusSwitchElement.HideUncheckedElement="True"
+                      x:Name="FullScreenButton"
+                      HorizontalAlignment="Right"
+                      Margin="2 1"
+                      Cursor="Hand">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonCustom}">
+                            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Fullscreen}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.WindowedMode}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                    <hc:StatusSwitchElement.CheckedElement>
+                        <iconPacks:PackIconMaterial Kind="FullscreenExit" Style="{StaticResource MainMenuIconStyle}"
+                                            Width="13" Height="13" Cursor="Hand"/>
+                    </hc:StatusSwitchElement.CheckedElement>
+
+                    <iconPacks:PackIconMaterial Kind="Fullscreen" Style="{StaticResource MainMenuIconStyle}"
+                                        Width="13" Height="13"/>
+                </ToggleButton>
+            </Border>
+        </Grid>
+    </Grid>
+
+</hc:Window>

@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.MonitoringFiltersView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:s="https://github.com/canton7/Stylet"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels" 
+      xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"  
+      xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+      xmlns:hc1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+      d:DataContext="{d:DesignInstance Type=viewmodels:MonitoringFiltersViewModel}" 
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <local:FilterParametersConverter x:Key="FilterParametersConverter" />
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60" MinHeight="60"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="20,0,20,0">
+            <hc1:Button HorizontalAlignment="Right" Command="{s:Action ShowFiltersCommand}" BorderThickness="0" Background="{DynamicResource SecondaryRegionBrush}" Margin="0,10,0,0" Cursor="Hand">
+                <iconPacks:PackIconMaterial Kind="Close" />
+            </hc1:Button>
+                
+                <hc:CheckComboBox x:Name="ModelFilter"
+                                      Margin="0,0,0,20"
+                                      hc:ListBoxAttach.SelectedItems="{Binding SelectedModels, Mode=TwoWay}" 
+                                      ItemsSource="{Binding ModelsFromDataFromDb}" 
+                                      hc:InfoElement.TitleWidth="140" 
+                                      hc:InfoElement.TitlePlacement="Top" 
+                                      hc:InfoElement.Placeholder="Any" 
+                                      hc:InfoElement.Title="{x:Static properties:Resources.Name}" 
+                                      Style="{StaticResource CheckComboBoxPlus}"/>
+                
+                    <hc:CheckComboBox x:Name="IpFilter"
+                                      Margin="0,0,0,20"  
+                                      hc:ListBoxAttach.SelectedItems="{Binding SelectedAddresses, Mode=TwoWay}" 
+                                      ItemsSource="{Binding IpsFromDataFromDb}" 
+                                      hc:InfoElement.TitleWidth="140" 
+                                      hc:InfoElement.TitlePlacement="Top" 
+                                      hc:InfoElement.Placeholder="Any" 
+                                      hc:InfoElement.Title="{x:Static properties:Resources.IpAddress}" 
+                                      Style="{StaticResource CheckComboBoxPlus}"/>
+
+            <hc:CheckComboBox x:Name="ParameterFilter"
+                                      Margin="0,0,0,20"
+                                      hc:ListBoxAttach.SelectedItems="{Binding SelectedParameters, Mode=TwoWay}" 
+                                      ItemsSource="{Binding ParametersFromDb}" 
+                                      hc:InfoElement.TitleWidth="140" 
+                                      hc:InfoElement.TitlePlacement="Top" 
+                                      hc:InfoElement.Placeholder="Any" 
+                                      hc:InfoElement.Title="{x:Static properties:Resources.Parameter}" 
+                                      Style="{StaticResource CheckComboBoxPlus}"/>
+
+            <hc:CheckComboBox x:Name="StateFilter"
+                                      Margin="0,0,0,20"
+                                      hc:ListBoxAttach.SelectedItems="{Binding SelectedStates, Mode=TwoWay}" 
+                                      ItemsSource="{Binding EventStatusFromDb}" 
+                                      hc:InfoElement.TitleWidth="140" 
+                                      hc:InfoElement.TitlePlacement="Top" 
+                                      hc:InfoElement.Placeholder="Any" 
+                                      hc:InfoElement.Title="{x:Static properties:Resources.State}" 
+                                      Style="{StaticResource CheckComboBoxPlus}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
+            <hc1:Button  Content="{x:Static properties:Resources.Confirm}" 
+                         Command="{s:Action SetFiltersCommand}" 
+                         Margin="0,0,30,0" 
+                         Width="100" 
+                         VerticalAlignment="Center" 
+                         HorizontalAlignment="Left" 
+                         Style="{StaticResource ButtonPrimary}"
+                         Cursor="Hand">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource FilterParametersConverter}">
+                        <Binding ElementName="ModelFilter" Path="SelectedItems"/>
+                        <Binding ElementName="IpFilter" Path="SelectedItems"/>
+                        <Binding ElementName="ParameterFilter" Path="SelectedItems"/>
+                        <Binding ElementName="StateFilter" Path="SelectedItems"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </hc1:Button>
+
+            <hc1:Button Content="{x:Static properties:Resources.Default}" 
+                        Command="{s:Action SetDefaultFiltersCommand}" 
+                        Margin="30,0,0,0" 
+                        Width="100" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right" 
+                        Style="{StaticResource ButtonPrimary}"
+                        Cursor="Hand"/>
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

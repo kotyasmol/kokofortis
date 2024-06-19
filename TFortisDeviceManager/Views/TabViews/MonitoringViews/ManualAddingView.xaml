@@ -1,0 +1,77 @@
+﻿<hc:Window x:Class="TFortisDeviceManager.Views.ManualAddingView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+           xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:TFortisDeviceManager.Views"
+           xmlns:hc="https://handyorg.github.io/handycontrol"        
+           xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+           xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+           xmlns:s="https://github.com/canton7/Stylet"
+           d:DataContext="{d:DesignInstance Type=viewmodels:ManualAddingViewModel}"
+           x:Name="ManualAdding"
+           Title="{x:Static properties:Resources.ManualAdding}"
+           Icon="\TFortisDeviceManager;component\Views\Images\icon.ico"        
+           mc:Ignorable="d"
+           MaxHeight="200" MinHeight="200" MaxWidth="400" MinWidth="400"
+           Width="400"
+           Height="200">
+
+    <hc:Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="IpTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxExtend}">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel>
+                                <Border BorderBrush="Red" BorderThickness="1">
+                                    <AdornedElementPlaceholder x:Name="controlWithError"/>
+                                </Border>
+                                <TextBlock Foreground="Red" FontSize="20" Margin="3,0,0,0">!</TextBlock>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="Tag" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </hc:Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60" MinHeight="60"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Margin="10">
+                <TextBlock Text="{x:Static properties:Resources.Name}" Margin="0,0,0,5"/>
+                <hc:ComboBox Width="160" ItemsSource="{Binding ModelsFromDb}" SelectedIndex="1" SelectedValue="{Binding SelectedModel, Mode=TwoWay}" hc:InfoElement.Placeholder="{x:Static properties:Resources.SelectModel}" BorderBrush="{Binding ModelErrorColor}" SelectionChanged="{s:Action SelectionChanged}"/>
+            </StackPanel>
+
+            <StackPanel Margin="10">
+                <TextBlock Text="{x:Static properties:Resources.IpAddress}" Margin="0,0,0,5"/>
+                <StackPanel>
+                    <hc:TextBox Width="160" TextWrapping="Wrap" Text="{Binding IpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Cursor="IBeam" hc:InfoElement.Placeholder="{x:Static properties:Resources.EnterIP}"/>
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="30,10,0,0">
+            <Button Content="{x:Static properties:Resources.AddToMonitoring}" HorizontalAlignment="Left" Style="{StaticResource ButtonPrimary}" IsEnabled="{Binding CanAddDeviceCommand, Mode=OneWay}" Command="{s:Action AddToMonitoringCommand}" Cursor="Hand">
+               
+            </Button>
+        </StackPanel>
+    </Grid>
+</hc:Window>

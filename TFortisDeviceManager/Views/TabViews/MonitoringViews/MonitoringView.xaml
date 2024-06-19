@@ -1,0 +1,373 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.MonitoringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:views="clr-namespace:TFortisDeviceManager.Views" 
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"  
+             xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:hc1="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+             d:DataContext="{d:DesignInstance Type=viewmodels:MonitoringViewModel}" 
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1440">
+
+    <UserControl.Resources>
+
+        <Style x:Key="ColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource DataGridColumnHeaderStyle.Small}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0 0 1 0" />
+            <Setter Property="Margin" Value="0 0 0 5" />
+            <Setter Property="Height" Value="25" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.Sort}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate DataType="{x:Type viewmodels:MonitoringFiltersViewModel}">
+            <views:MonitoringFiltersView/>
+        </DataTemplate>
+
+        <Style x:Key="VerticalGridSplitterStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="Background" Value="DarkGray"/>
+            <Setter Property="Opacity" Value="0.1"/>
+            <Setter Property="Width" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <Border Background="Gray" Width="2" Height="2" Margin="0 1"/>
+                                <Border Background="Gray" Width="2" Height="2" Margin="0 1"/>
+                                <Border Background="Gray" Width="2" Height="2" Margin="0 1"/>
+                                <Border Background="Gray" Width="2" Height="2" Margin="0 1"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#DCDCDC" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DataGridTextCenterColumnStyle" TargetType="DataGridCell" BasedOn="{StaticResource DataGridCellStyle}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <local:EventStatusToColorConverter x:Key="EventStatusToColorConverter"/>
+        <local:EventStatusToIconConverter x:Key="EventStatusToIconConverter"/>
+        <local:LanguageConverter x:Key="LanguageConverter"/>
+
+    </UserControl.Resources>
+
+    <Grid VirtualizingPanel.IsVirtualizing="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60" MaxHeight="60" MinHeight="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="670" Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="{Binding FiltersWidth}" MaxWidth="300"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
+            <StackPanel hc:Growl.GrowlParent="True" TextBlock.FontSize="16" VerticalAlignment="Top" Margin="0,10,10,10"/>
+        </ScrollViewer>
+
+        <FrameworkElement x:Name="columnModel" Visibility="{Binding ShowModelColumn}"/>
+        <FrameworkElement x:Name="columnIP" Visibility="{Binding ShowIpAddressColumn}"/>
+        <FrameworkElement x:Name="columnMac" Visibility="{Binding ShowMacAddressColumn}"/>
+        <FrameworkElement x:Name="columnSerial" Visibility="{Binding ShowSerialNumberColumn}"/>
+        <FrameworkElement x:Name="columnLocation" Visibility="{Binding ShowLocationColumn}"/>
+        <FrameworkElement x:Name="columnDescription" Visibility="{Binding ShowDescriptionColumn}"/>
+
+            <DataGrid Grid.Row="0" Grid.Column="0" Margin="3" 
+                  TextBlock.FontSize="12"
+                  ItemsSource="{Binding DevicesForMonitoring, Mode=TwoWay}"   
+                  SelectedItem="{Binding SelectedDevice, Mode=OneWayToSource}"
+                  Style="{StaticResource DataGrid.Small}"
+                  RowHeight="35" 
+                  CanUserAddRows="False"
+                  EnableRowVirtualization="True"
+                  CanUserDeleteRows="False"
+                  AutoGenerateColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  SelectionMode="Single"
+                  x:Name="DevicesForMonitoring"
+                  hc:TitleElement.Title="Events"
+                  VerticalContentAlignment="Stretch"
+                  Sorting="{s:Action TableSortCommand}"
+                  mah:DataGridHelper.CellPadding="-20,0,-20,0"
+                  HorizontalContentAlignment="Center">
+
+                <DataGrid.Columns>
+
+                <DataGridTemplateColumn Width="35">
+                   
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <CheckBox HorizontalAlignment="Center" 
+                                          HorizontalContentAlignment="Center" 
+                                          VerticalContentAlignment="Center"
+                                          IsChecked="{Binding IsSelected}"
+                                          Checked="{s:Action AddSelectedDeviceCommand}"
+                                          Unchecked="{s:Action RemoveSelectedDeviceCommand}"
+                                          />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="35" MinWidth="35" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <iconPacks:PackIconMaterial Visibility="{Binding State, Converter={StaticResource Boolean2VisibilityConverter}, Mode=OneWay}" Kind="Alert" Foreground="Orange"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="35" MinWidth="35" CanUserResize="False" Visibility="Collapsed">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <CheckBox                            
+                                    HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                    IsChecked="{Binding SelectedDevice.IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Command="{s:Action SelectDeviceCommand}"
+                                    />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="Auto" 
+                                        CanUserResize="False" 
+                                        Visibility="{Binding DataContext.ShowModelColumn, Source={x:Reference columnModel}}" 
+                                        Header="{x:Static properties:Resources.Name}" 
+                                        Binding="{Binding Name, Mode=OneWay}"/>
+
+                    <DataGridTextColumn Width="Auto" 
+                                        CanUserResize="False" 
+                                        Visibility="{Binding DataContext.ShowIpAddressColumn, Source={x:Reference columnIP}}" 
+                                        Header="{x:Static properties:Resources.IpAddress}" 
+                                        Binding="{Binding IpAddress, Mode=OneWay}" 
+                                        SortMemberPath="IpAddress"/>
+
+                    <DataGridTextColumn Width="Auto" 
+                                        CanUserResize="False" 
+                                        Visibility="{Binding DataContext.ShowMacAddressColumn, Source={x:Reference columnMac}}" 
+                                        Header="{x:Static properties:Resources.Mac}" 
+                                        Binding="{Binding Mac, Mode=OneWay}"/>
+
+                    <DataGridTextColumn Visibility="{Binding DataContext.ShowSerialNumberColumn, Source={x:Reference columnSerial}}"
+                                        Header="{x:Static properties:Resources.SerialNumber}"
+                                        Binding="{Binding SerialNumber, Mode=OneWay}"
+                                        MinWidth="80"  
+                                        Width="Auto"/>
+
+                    <DataGridTextColumn Visibility="{Binding DataContext.ShowLocationColumn, Source={x:Reference columnLocation}}" 
+                                        Header="{x:Static properties:Resources.Location}"
+                                        Binding="{Binding Location, Mode=OneWay}"  
+                                        MinWidth="120"
+                                        Width="*"/>
+
+
+
+                    <DataGridTextColumn Visibility="{Binding DataContext.ShowDescriptionColumn, Source={x:Reference columnDescription}}"
+                                        Header="{x:Static properties:Resources.Description}"
+                                        Binding="{Binding Description, Mode=OneWay}"
+                                        MinWidth="120" 
+                                        Width="*"/>
+
+
+
+                </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu Visibility="{Binding PlacementTarget.DataContext.SelectedDevice, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource Object2VisibilityConverter}}">
+                        <MenuItem Header="{x:Static properties:Resources.DeleteFromMonitoring}" 
+                              Command = "{s:Action DeleteFromMonitoringCommand}"
+                              CommandParameter="{Binding SelectedDevice}"/>
+                        <MenuItem Header="{x:Static properties:Resources.MonitoringSettings}" 
+                              Command = "{s:Action ConfigureDevice}"
+                              CommandParameter="{Binding SelectedDevice}"/>
+                        <MenuItem Header="{x:Static properties:Resources.AddToMap}" 
+                              Command = "{s:Action AddDeviceToMap}"
+                              CommandParameter="{Binding SelectedDevice}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" >
+                <hc1:Button HorizontalAlignment="Left" VerticalAlignment="Center" Command="{s:Action AddDeviceManually}" Style="{StaticResource ButtonPrimary}" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                    <iconPacks:PackIconMaterial Kind="Plus" Foreground="{DynamicResource PrimaryBrush}"/>
+                </hc1:Button>
+            </StackPanel>
+
+
+        <GridSplitter Grid.Column="0" Grid.Row="0" Width="2" Margin="-1" Style="{StaticResource VerticalGridSplitterStyle}"/>
+
+        <FrameworkElement x:Name="columnTime" Visibility="{Binding ShowTimeColumn}"/>
+        <FrameworkElement x:Name="columnName" Visibility="{Binding ShowNameColumn}"/>
+        <FrameworkElement x:Name="columnEventIpAddress" Visibility="{Binding ShowEventIpAddressColumn}"/>
+        <FrameworkElement x:Name="columnSensor" Visibility="{Binding ShowSensorColumn}"/>
+        <FrameworkElement x:Name="columnValue" Visibility="{Binding ShowValueColumn}"/>
+        <FrameworkElement x:Name="columnAge" Visibility="{Binding ShowAgeColumn}"/>
+        <FrameworkElement x:Name="columnEventDescription" Visibility="{Binding ShowEventDescriptionColumn}"/>
+        <FrameworkElement x:Name="columnState" Visibility="{Binding ShowStateColumn}"/>
+        <FrameworkElement x:Name="columnEventLocation" Visibility="{Binding ShowEventLocationColumn}"/>
+        <FrameworkElement x:Name="columnDeviceDescription" Visibility="{Binding ShowDeviceDescriptionColumn}"/>
+        <FrameworkElement x:Name="columnConfirm" Visibility="{Binding ShowConfirmColumn}"/>
+
+        <DataGrid Grid.Column="1"
+                  Grid.RowSpan="2"
+                  Margin="3,3,3,3"
+                  TextBlock.FontSize="12"
+                  ItemsSource="{Binding MonitoringEvents, Mode=OneWay}"
+                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedEvent}"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  Style="{StaticResource DataGrid.Small}"
+                  RowHeight="35"  
+                  VerticalAlignment="Stretch"
+                  EnableColumnVirtualization="False"
+                  x:Name="MonitoringEvents"
+                  EnableRowVirtualization="True"
+                  Sorting="{s:Action TableSortCommand}"
+                  HorizontalContentAlignment="Center"
+                  mah:DataGridHelper.CellPadding="-20,0,-20,0">
+
+            <DataGrid.Columns>
+                
+                <DataGridTextColumn Width="Auto" 
+                                    CanUserResize="False" 
+                                    Visibility="{Binding DataContext.ShowTimeColumn, Source={x:Reference columnTime}}" 
+                                    Header="{x:Static properties:Resources.Time}"
+                                    Binding="{Binding Time, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="Auto"
+                                    CanUserResize="False" 
+                                    Visibility="{Binding DataContext.ShowNameColumn, Source={x:Reference columnName}}" 
+                                    Header="{x:Static properties:Resources.Name}" 
+                                    Binding="{Binding DeviceName, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="Auto"
+                                    CanUserResize="False" 
+                                    Visibility="{Binding DataContext.ShowEventIpAddressColumn, Source={x:Reference columnEventIpAddress}}"
+                                    Header="{x:Static properties:Resources.IpAddress}" 
+                                    Binding="{Binding Ip, Mode=OneWay}"
+                                    SortMemberPath="IpAddress"/>
+                
+                <DataGridTextColumn Width="*" 
+                                    Visibility="{Binding DataContext.ShowEventLocationColumn, Source={x:Reference columnEventLocation}}" 
+                                    Header="{x:Static properties:Resources.Location}" 
+                                    Binding="{Binding DeviceLocation, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="*" 
+                                    Visibility="{Binding DataContext.ShowDeviceDescriptionColumn, Source={x:Reference columnDeviceDescription}}"
+                                    Header="{x:Static properties:Resources.Description}" 
+                                    Binding="{Binding DeviceDescription, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="Auto"
+                                    CanUserResize="False"
+                                    Visibility="{Binding DataContext.ShowSensorColumn, Source={x:Reference columnSensor}}"
+                                    Header="{x:Static properties:Resources.Sensor}"
+                                    Binding="{Binding SensorName, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="Auto" 
+                                    CanUserResize="False"
+                                    Visibility="{Binding DataContext.ShowValueColumn, Source={x:Reference columnValue}}"
+                                    Header="{x:Static properties:Resources.Value}" 
+                                    Binding="{Binding SensorValueText, Mode=OneWay}"/>
+                
+                <DataGridTextColumn Width="Auto" 
+                                    CanUserResize="False"
+                                    Visibility="{Binding DataContext.ShowAgeColumn, Source={x:Reference columnAge}}"
+                                    Header="{x:Static properties:Resources.Age}" 
+                                    Binding="{Binding Age}"/>
+                
+                <DataGridTextColumn Width="*" 
+                                    Visibility="{Binding DataContext.ShowEventDescriptionColumn, Source={x:Reference columnEventDescription}}" 
+                                    Header="{x:Static properties:Resources.EventDescription}"
+                                    Binding="{Binding Description, Mode=OneWay, Converter={StaticResource LanguageConverter}}"/>
+                
+                <DataGridTextColumn Width="Auto" 
+                                    MinWidth="70"
+                                    CanUserResize="False" 
+                                    Visibility="{Binding DataContext.ShowStateColumn, Source={x:Reference columnState}}"
+                                    Header="{x:Static properties:Resources.State}" 
+                                    Binding="{Binding Status, Mode=OneWay}"/>
+
+                <DataGridTemplateColumn Width="Auto" MinWidth="30" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="{Binding Status, Converter={StaticResource EventStatusToIconConverter}}" Foreground="{Binding Status, Converter={StaticResource EventStatusToColorConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <hc1:Button Command="{s:Action ShowFiltersCommand}" Background="{DynamicResource SecondaryRegionBrush}" BorderThickness="0" Cursor="Hand">
+                                <iconPacks:PackIconMaterial Kind="Filter" Foreground="{DynamicResource PrimaryBrush}"/>
+                            </hc1:Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{s:Action ConfirmEventReloaded}" Content="OK" Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonPrimary}">
+                                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding SensorValueText}" Value="{x:Static properties:Resources.HostStatusReloaded}" />
+                                                    <Condition Binding="{Binding Status}" Value="{x:Static properties:Resources.StatusInfo}"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <hc:GotoTop Grid.Column="1" Grid.Row="1" Animated="True" AutoHiding="True" HidingHeight="20" AnimationTime="1000" Target="{Binding ElementName=MonitoringEvents}" HorizontalAlignment="Right" Margin="0,0,30,10" VerticalAlignment="Bottom"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="2">
+            <ContentControl x:Name="Filters" Content="{Binding SelectedViewModel}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

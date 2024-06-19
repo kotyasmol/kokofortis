@@ -1,0 +1,40 @@
+﻿<hc:Window x:Class="TFortisDeviceManager.Views.EventTableSettingsView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+           xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:TFortisDeviceManager.Views"
+           xmlns:hc="https://handyorg.github.io/handycontrol"        
+           xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+           xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+           xmlns:s="https://github.com/canton7/Stylet"
+           x:Name="DeviceTableSettings"
+           d:DataContext="{d:DesignInstance Type=viewmodels:EventTableSettingsViewModel}"
+           Icon="\TFortisDeviceManager;component\Views\Images\icon.ico"        
+           mc:Ignorable="d"
+           Title="" MaxHeight="470" MinHeight="470" MaxWidth="200" MinWidth="200">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <CheckBox IsChecked="{Binding ShowTimeColumn}" Margin="8" Content="{x:Static properties:Resources.Time}"/>
+            <CheckBox IsChecked="{Binding ShowNameColumn}" Margin="8" Content="{x:Static properties:Resources.Name}"/>
+            <CheckBox IsChecked="{Binding ShowEventIpAddressColumn}" Margin="8" Content="{x:Static properties:Resources.IpAddress}"/>
+            <CheckBox IsChecked="{Binding ShowSensorColumn}" Margin="8" Content="{x:Static properties:Resources.Sensor}"/>
+            <CheckBox IsChecked="{Binding ShowValueColumn}" Margin="8" Content="{x:Static properties:Resources.Value}"/>
+            <CheckBox IsChecked="{Binding ShowAgeColumn}" Margin="8" Content="{x:Static properties:Resources.Age}"/>
+            <CheckBox IsChecked="{Binding ShowEventDescriptionColumn}" Margin="8" Content="{x:Static properties:Resources.Description}"/>
+            <CheckBox IsChecked="{Binding ShowStateColumn}" Margin="8" Content="{x:Static properties:Resources.State}"/>
+            <CheckBox IsChecked="{Binding ShowEventLocationColumn}" Margin="8" Content="{x:Static properties:Resources.Location}"/>
+            <CheckBox IsChecked="{Binding ShowDeviceDescriptionColumn}" Margin="8" Content="{x:Static properties:Resources.DeviceDescription}"/>
+
+            <Button Style="{StaticResource ButtonPrimary}" Content ="{x:Static properties:Resources.Confirm}" Command="{s:Action ConfirmSettingsCommand}" HorizontalAlignment="Left" Margin="8,25,0,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding ElementName=DeviceTableSettings}" MethodName="Close"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</hc:Window>

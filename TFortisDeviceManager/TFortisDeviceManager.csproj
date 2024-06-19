@@ -1,0 +1,176 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>TFortisDeviceManager</AssemblyName>
+    <RootNamespace>TFortisDeviceManager</RootNamespace>
+    <Version>1.0</Version>
+    <Configurations>Debug;Release</Configurations>
+    <Copyright>Copyright © Fort Telecom 2023</Copyright>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+	<Nullable>enable</Nullable>
+	<ApplicationIcon>Views\Images\icon.ico</ApplicationIcon>
+	<ImplicitUsings>disable</ImplicitUsings>
+	<AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
+	<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+	<GenerateDocumentationFile>False</GenerateDocumentationFile>
+	<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	<AnalysisLevel>latest-recommended</AnalysisLevel>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;Core</DefineConstants>
+    <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;Core</DefineConstants>
+    <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Reporters\**" />
+    <Compile Remove="Новая папка1\**" />
+    <EmbeddedResource Remove="Reporters\**" />
+    <EmbeddedResource Remove="Новая папка1\**" />
+    <None Remove="Reporters\**" />
+    <None Remove="Новая папка1\**" />
+    <Page Remove="Reporters\**" />
+    <Page Remove="Новая папка1\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Converters\PortPoeToColorConverter.cs" />
+    <Compile Remove="DeviceReporter.cs" />
+    <Compile Remove="ReporterBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Images\icon.ico" />
+    <None Remove="Views\Images\info.ico" />
+    <None Remove="Views\Images\logo.png" />
+    <None Remove="Views\Images\ok.ico" />
+    <None Remove="Views\Images\problem.ico" />
+    <None Remove="Views\Images\psw_disabled.ico" />
+    <None Remove="Views\Images\psw_disabled1.ico" />
+    <None Remove="Views\Images\psw_disabled2.ico" />
+    <None Remove="Views\Images\psw_enabled.ico" />
+    <None Remove="Views\Images\tfortis_logo.ico" />
+    <None Remove="Views\Images\warning.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.102.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Config.Net" Version="5.1.5" />
+    <PackageReference Include="EntityFramework6.Npgsql" Version="6.4.3" />
+    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="GMap.NET.Core" Version="2.1.7" />
+    <PackageReference Include="GMap.NET.WinPresentation" Version="2.1.7" />
+    <PackageReference Include="HandyControls" Version="3.4.5" />
+    <PackageReference Include="HandyControls.Lang.ru" Version="3.4.5" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Hardcodet.Wpf.TaskbarNotification" Version="1.0.5" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
+    <PackageReference Include="MailKit" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="MimeKit" Version="2.1.3" />
+    <PackageReference Include="NodeNetwork" Version="6.0.0" />
+    <PackageReference Include="Npgsql" Version="7.0.7" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.1-dev-00787" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="SharpSnmpLib.Engine" Version="12.0.0" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="Stylet" Version="1.3.6" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetNamedPipe" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.0.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.*" />
+    <PackageReference Include="Telegram.Bot" Version="19.0.0" />
+  </ItemGroup>  
+  <ItemGroup>
+    <Resource Include="Views\Images\icon.ico" />
+    <Resource Include="Views\Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\psw_disabled.ico" />
+    <Resource Include="Views\Images\psw_enabled.ico" />
+    <Resource Include="Views\Images\tfortis_logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\SoundResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SoundResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\SoundResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SoundResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="TFortisDeviceManagerUninstaller.deps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TFortisDeviceManagerUninstaller.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TFortisDeviceManagerUninstaller.pdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TFortisDeviceManagerUninstaller.runtimeconfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="uninst.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\TabViews\DashBoardViews\" />
+  </ItemGroup>
+  <Target Name="CopyFiles" AfterTargets="Build">
+	  <ItemGroup>
+		  <Models Include="Models\Devices\Json\*.json" />
+	  </ItemGroup>
+	<Copy SourceFiles="@(Models)" DestinationFolder="$(TargetDir)\Models" />
+  </Target>	
+</Project>

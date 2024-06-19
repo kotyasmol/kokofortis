@@ -1,0 +1,780 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "PSW-2G",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 3
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [],
+    "HasUps": false
+  },
+  {
+    "Id": 2,
+    "Name": "PSW-2G-UPS",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 3
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [],
+    "HasUps": true
+  },
+  {
+    "Id": 3,
+    "Name": "PSW-2G+",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 4,
+    "Name": "PSW-1G4F",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 1
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 5,
+    "Name": "PSW-2G4F",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 6,
+    "Name": "PSW-2G6F+",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 6
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 7,
+    "Name": "PSW-2G8F+",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 8
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 8,
+    "Name": "PSW-1G4F-UPS",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": false,
+        "Poe": "no",
+        "NumberOf": 1
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 1
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 9,
+    "Name": "PSW-2G4F-UPS",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 10,
+    "Name": "PSW-2G+UPS-Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 1
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 11,
+    "Name": "PSW-2G2F+UPS",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 2
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 12,
+    "Name": "PSW-2G8F+UPS-Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 8
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 1
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 13,
+    "Name": "PSW-2G4F-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 15,
+    "Name": "PSW-1G4F-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 1
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 15,
+    "Name": "PSW-1G4F-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 1
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 17,
+    "Name": "PSW-2G+Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 19,
+    "Name": "PSW-2G+Hot",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 20,
+    "Name": "PSW-2G8F+Hot",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "hiPoe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 21,
+    "Name": "PSW-2G4F-Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 22,
+    "Name": "PSW-1G4F-Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 1
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 23,
+    "Name": "PSW-2G6F+UPS-Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 6
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 1
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 24,
+    "Name": "PSW-2G+Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 25,
+    "Name": "PSW-2G6F+Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 6
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 26,
+    "Name": "PSW-2G8F+Box",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 8
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 27,
+    "Name": "PSW-2G6F+Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 6
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 28,
+    "Name": "PSW-2G8F+Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 8
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 29,
+    "Name": "PSW-2G+UPS-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 4
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 30,
+    "Name": "PSW-2G6F+UPS-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 6
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 31,
+    "Name": "PSW-2G8F+UPS-Ex",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 8
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 2
+      }
+    ],
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 2
+      },
+      {
+        "Type": "output",
+        "NumberOf": 0
+      }
+    ],
+    "HasUps": true
+  },
+  {
+    "Id": 200,
+    "Name": "SWU-16",
+    "Ports": [
+      {
+        "IsSfp": false,
+        "Poe": "poe",
+        "NumberOf": 0
+      },
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 12
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 201,
+    "Name": "TELEPORT-1",
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 3
+      },
+      {
+        "Type": "output",
+        "NumberOf": 9
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 202,
+    "Name": "TELEPORT-2",
+    "Contacts": [
+      {
+        "Type": "input",
+        "NumberOf": 5
+      },
+      {
+        "Type": "output",
+        "NumberOf": 1
+      }
+    ],
+    "HasUps": false
+  },
+  {
+    "Id": 203,
+    "Name": "SWU-16T",
+    "Ports": [
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 12
+      }
+    ],
+
+    "HasUps": false
+  },
+  {
+    "Id": 210,
+    "Name": "SWU-16M",
+    "Ports": [
+      {
+        "IsSfp": true,
+        "Poe": "no",
+        "NumberOf": 12
+      }
+    ],
+    "HasUps": false
+  }
+]

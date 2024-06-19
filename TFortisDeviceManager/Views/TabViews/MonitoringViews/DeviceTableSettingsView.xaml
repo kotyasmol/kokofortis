@@ -1,0 +1,35 @@
+﻿<hc:Window x:Class="TFortisDeviceManager.Views.DeviceTableSettingsView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+           xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:TFortisDeviceManager.Views"
+           xmlns:hc="https://handyorg.github.io/handycontrol"        
+           xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+           xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+           xmlns:s="https://github.com/canton7/Stylet"
+           x:Name="DeviceTableSettings"
+           d:DataContext="{d:DesignInstance Type=viewmodels:DeviceTableSettingsViewModel}"
+           Icon="\TFortisDeviceManager;component\Views\Images\icon.ico"        
+           mc:Ignorable="d"
+           Title="" MaxHeight="300" MinHeight="300" MaxWidth="200" MinWidth="200">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <CheckBox IsChecked="{Binding ShowModelColumn}" Margin="10" Content="{x:Static properties:Resources.Name}"/>
+            <CheckBox IsChecked="{Binding ShowIpAddressColumn}" Margin="10" Content="{x:Static properties:Resources.IpAddress}"/>
+            <CheckBox IsChecked="{Binding ShowMacAddressColumn}" Margin="10" Content="{x:Static properties:Resources.Mac}"/>
+            <CheckBox IsChecked="{Binding ShowSerialNumberColumn}" Margin="10" Content="{x:Static properties:Resources.SerialNumber}"/>
+            <CheckBox IsChecked="{Binding ShowLocationColumn}" Margin="10" Content="{x:Static properties:Resources.Location}"/>
+            <CheckBox IsChecked="{Binding ShowDescriptionColumn}" Margin="10" Content="{x:Static properties:Resources.Description}"/>
+            <Button Style="{StaticResource ButtonPrimary}" Content ="{x:Static properties:Resources.Confirm}" Command="{s:Action ConfirmSettingsCommand}" HorizontalAlignment="Left" Margin="10,10,0,0">
+                 <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding ElementName=DeviceTableSettings}" MethodName="Close"/>
+                </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</hc:Window>

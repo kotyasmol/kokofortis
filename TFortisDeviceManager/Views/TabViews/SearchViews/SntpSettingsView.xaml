@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.SntpSettingsView"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+           xmlns:hc="https://handyorg.github.io/handycontrol"        
+           xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels"
+           xmlns:views="clr-namespace:TFortisDeviceManager.Views"
+           xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"
+           xmlns:s="https://github.com/canton7/Stylet"
+           mc:Ignorable="d"
+           d:DataContext="{d:DesignInstance Type=viewmodels:SntpSettingsViewModel}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="70"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+
+            <StackPanel Margin="20,0,20,0" 
+                        Orientation="Vertical" 
+                        HorizontalAlignment="Center">
+
+                <Border BorderBrush="{DynamicResource BorderBrush}"             
+                        Height="40"            
+                        BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Horizontal" 
+                                Margin="5">
+                        
+                        <TextBlock Width="150" 
+                                   Text="{x:Static properties:Resources.ServerIpAddress}" 
+                                   VerticalAlignment="Center"/>
+                        
+                        <hc:TextBox Width="200" 
+                                    TextAlignment="Center" 
+                                    Text="{Binding SntpServer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}" 
+                                    Cursor="IBeam"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="{DynamicResource BorderBrush}"             
+                        Height="40"             
+                        BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Horizontal" 
+                                Margin="5">
+                        
+                        <TextBlock Width="150" 
+                                   Text="{x:Static properties:Resources.Timezone}" 
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Left"/>
+                        
+                        <hc:ComboBox ItemsSource="{Binding UTCDictionary, Mode=OneWay}" 
+                                     SelectedValue="{Binding Timezone}" 
+                                     SelectedValuePath="Value" 
+                                     DisplayMemberPath="Key" 
+                                     Width="130"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="{DynamicResource BorderBrush}"              
+                        Height="40"            
+                        BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Horizontal" 
+                                Margin="5" >
+                        
+                        <TextBlock Width="150" 
+                                   Text="{x:Static properties:Resources.Period}" 
+                                   VerticalAlignment="Center"/>
+                        
+                        <hc:ComboBox SelectedValue="{Binding SntpPeriod}" 
+                                     Width="130">
+
+                            <hc:ComboBox.Items>
+                                <ComboBoxItem Content="1"/>
+                                <ComboBoxItem Content="10"/>
+                                <ComboBoxItem Content="60"/>
+                                <ComboBoxItem Content="240"/>
+                            </hc:ComboBox.Items>
+
+                        </hc:ComboBox>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="{DynamicResource BorderBrush}" 
+                        Height="40"
+                        BorderThickness="0,0,0,1">
+
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Width="150" 
+                                   Text="{x:Static properties:Resources.ConfirmToAll}" 
+                                   TextWrapping="Wrap" 
+                                   TextAlignment="Left" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"/>
+
+                        <CheckBox IsChecked="{Binding SntpToAll}"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <StackPanel IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+                <StackPanel Grid.Row="2"                                    
+                            Height="70" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Center">
+
+                    <TextBlock Text="{x:Static properties:Resources.UserLogin}" 
+                               TextAlignment="Left" 
+                               Width="40"
+                               Margin="0,0,5,0"
+                               VerticalAlignment="Center"/>
+
+                    <hc:TextBox Text="{Binding Login}"                         
+                                Height="30" 
+                                Width="100"
+                                Cursor="IBeam"/>
+
+                    <hc:UniformSpacingPanel Width="20"/>
+
+
+                    <TextBlock Text="{x:Static properties:Resources.UserPassword}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+
+                    <hc:PasswordBox UnsafePassword="{Binding Password}"                                        
+                                    ShowEyeButton="True" 
+                                    IsSafeEnabled="False" 
+                                    Height="30" 
+                                    Width="100"
+                                    Cursor="IBeam"/>
+
+                    <hc:UniformSpacingPanel Width="20"/>
+
+                    <hc:ProgressButton Command = "{s:Action ConfirmSntpCommand}"                                                            
+                                       IsChecked="{Binding SettingApplyingInProgress, Mode=TwoWay}"
+                                       Style="{StaticResource ToggleButtonLoadingPrimary}"
+                                       Progress="0" 
+                                       Width="100"
+                                       Content= "{x:Static properties:Resources.Apply}"                                                     
+                                       Height="30"
+                                       Cursor="Hand"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="3"          
+                           Margin="10,5"
+                           Text="{Binding ErrorMessage, Mode=OneWay}"
+                           Foreground="{Binding ErrorColor}"
+                           FontSize="14"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

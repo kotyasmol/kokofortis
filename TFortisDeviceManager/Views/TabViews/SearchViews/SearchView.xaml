@@ -1,0 +1,445 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.SearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:views="clr-namespace:TFortisDeviceManager.Views" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels" 
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"     
+             xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+             d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewModel}" 
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1440">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewmodels:DeviceSettingsViewModel}">
+                <views:DeviceSettingsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:SntpSettingsViewModel}">
+                <views:SntpSettingsView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodels:DfuUpdateViewModel}">
+                <views:DfuUpdateView/>
+            </DataTemplate>
+
+            <Style x:Key="ColumnHeaderStyle1" TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="BorderThickness" Value="0 0 1 0" />
+                <Setter Property="Margin" Value="0 0 0 5" />
+                <Setter Property="Height" Value="25" />
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.Sort}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="GridRowStyle" TargetType="DataGridRow" BasedOn="{StaticResource DataGridRowStyle}">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="ToolTip" Value="{Binding ToolTip}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <local:MonitoringStatusToIconConverter x:Key="MonitoringStatusToIconConverter" />
+
+            <Style x:Key="IpTextBoxStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxExtend}">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel>
+                                <Border BorderBrush="Red" BorderThickness="1">
+                                    <AdornedElementPlaceholder x:Name="controlWithError"/>
+                                </Border>
+                                <TextBlock Foreground="Red" FontSize="20" Margin="3,0,0,0">!</TextBlock>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="Tag" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <local:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter" />
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="{Binding CamerasListWidth}" MaxWidth="500"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid  hc:DataGridAttach.ShowRowNumber="True"                
+                   AutoGenerateColumns="False"                    
+                   RowHeaderWidth="60"                   
+                   ItemsSource="{Binding FoundDevices}"
+                   SelectedItem="{Binding SelectedDevice, Mode=OneWayToSource}"
+                   Grid.Row="0"
+                   Style="{StaticResource DataGrid.Small}"
+                   RowHeight="35" 
+                   CanUserResizeColumns="True"
+                   CanUserSortColumns="True"
+                   RowStyle="{StaticResource GridRowStyle}"
+                   SelectionMode="Single"
+                   x:Name="DeviceList"
+                   Sorting="{s:Action TableSortCommand}"
+                   SelectionChanged="{s:Action ChangeSelectionCommand}"
+                   Selected="{s:Action ChangeSelectionCommand}">
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn MinWidth="35" Width="35" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                          
+                                <StackPanel Orientation="Horizontal">
+                                <CheckBox Grid.Row="1" 
+                                          HorizontalAlignment="Center" 
+                                          IsChecked="False"
+                                          d:DataContext="{d:DesignInstance Type=viewmodels:AddingToMonitoringViewModel}"
+                                          Command="{s:Action SelectAllCommand}"
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <CheckBox HorizontalAlignment="Center" 
+                                          HorizontalContentAlignment="Center" 
+                                          VerticalContentAlignment="Center"                    
+                                          IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Name}"
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding Name, Mode=OneWay}"/>
+
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.IpAddress}" 
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding IpAddress, Mode=OneWay}"
+                                    SortMemberPath="IpAddress"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.NetworkMask}"
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding NetworkMask, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Gateway}" 
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding Gateway, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Mac}" 
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding Mac, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.SerialNumber}" 
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding SerialNumber, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Description}" 
+                                    Width="*"
+                                    MinWidth="0"
+                                    Binding="{Binding Description, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Location}"
+                                    Width="*"
+                                    Binding="{Binding Location, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.Firmware}"
+                                    Width="Auto"
+                                    CanUserResize="False"
+                                    Binding="{Binding Firmware, Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{x:Static properties:Resources.UpTime}"
+                                    Width="Auto"
+                                    MinWidth="70"
+                                    CanUserResize="False"
+                                    Binding="{Binding UpTime, Mode=OneWay}"
+                                    CanUserSort="False"/>
+
+                <DataGridTemplateColumn MaxWidth="60" Width="60" MinWidth="60" CanUserResize="False">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Button Command="{s:Action ShowCamerasList}" Background="{DynamicResource SecondaryRegionBrush}" BorderThickness="0" Cursor="Hand">
+                                <iconPacks:PackIconMaterial Kind="Cog" Foreground="{DynamicResource PrimaryBrush}"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <iconPacks:PackIconMaterial Kind="{Binding InMonitoring, Converter={StaticResource MonitoringStatusToIconConverter}, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu Visibility="{Binding PlacementTarget.DataContext.SelectedDevice, RelativeSource={RelativeSource Self}, Converter={StaticResource Object2VisibilityConverter}}">
+                    <MenuItem Header="{x:Static properties:Resources.AddToMonitoring}" 
+                              Command = "{s:Action AddToMonitoringCommand}"
+                              CommandParameter="{Binding SelectedDevice}"/>
+                    <MenuItem Header="{x:Static properties:Resources.OpenInBrowser}" 
+                              Command = "{s:Action OpenInBrowserCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.RebootDevice}" 
+                              Command = "{s:Action RebootDeviceCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.ResetSettings}" 
+                              Command = "{s:Action ResetSettingsCommand}"/>
+                    <MenuItem Header="{x:Static properties:Resources.ImportSettings}" 
+                              Command = "{s:Action ImportSettingsCommand}"/>
+
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+        </DataGrid>
+
+        <StackPanel Width="600" Margin="32" VerticalAlignment="Center">
+
+            <hc:LoadingLine Visibility="{Binding IsProgress, Converter={StaticResource Boolean2VisibilityConverter}, Mode=OneWay}" Margin="0,30" Foreground="{DynamicResource PrimaryBrush}" Style="{StaticResource LoadingLineLarge}"/>
+            
+        </StackPanel>
+        
+        <Grid Grid.Row="1" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="115*"/>
+                <ColumnDefinition Width="302*"/>
+                <ColumnDefinition Width="416*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal"
+                        IsEnabled="{Binding IsProgress, Mode=OneWay, Converter={StaticResource Boolean2BooleanReConverter}}">
+
+                <CheckBox Margin="25 0 0 0"
+                          IsChecked="{Binding IsAutoSearch}"
+                          Content="{x:Static properties:Resources.Auto}"
+                          Cursor="Hand"/>
+
+                <StackPanel Orientation="Horizontal"                            
+                            IsEnabled="{Binding IsAutoSearch, Mode=OneWay, Converter={StaticResource Boolean2BooleanReConverter}}">
+                    <TextBox Width="142" 
+                             Margin="25 0 0 0" 
+                             hc:InfoElement.Placeholder="{x:Static properties:Resources.From}"                                                      
+                             Text="{Binding FromIpAddress}"
+                             Cursor="IBeam"/>
+
+                    <TextBox Width="142" 
+                             Margin="25 0 0 0" 
+                             hc:InfoElement.Placeholder="{x:Static properties:Resources.To}"
+                             Text="{Binding ToIpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"
+                             Cursor="IBeam"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <hc:ProgressButton d:DataContext="{d:DesignInstance Type=viewmodels:DeviceSettingsViewModel}" Grid.Column="4"   
+                               Command = "{s:Action StartSearchCommand}"
+                               IsChecked="{Binding IsProgress, Mode=OneWay}"
+                               Style="{StaticResource ToggleButtonLoadingPrimary}"
+                               IsEnabled="{Binding DeviceSettingsTabViewModel.IsProgress, Converter={StaticResource Boolean2BooleanReConverter}}"
+                               Progress="0" 
+                               Width="160"
+                               Height="30"
+                               Cursor="Hand">
+
+                <ContentControl>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+
+                        <iconPacks:PackIconMaterial Kind="Magnify" Margin="0,0,10,0" Foreground="White"/>
+                        <TextBlock Text="{x:Static properties:Resources.StartSearching}"/>
+                        
+                    </StackPanel>
+                </ContentControl>
+                    
+            </hc:ProgressButton>
+        </Grid>
+        
+        <Grid Grid.Column="1" Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition MaxHeight="200"/>
+            </Grid.RowDefinitions>
+            
+            <hc:TabControl Grid.Row="0" IsScrollable="True" IsAnimationEnabled="True" ShowContextMenu="False" ShowOverflowButton="False" ShowScrollButton="True" Style="{StaticResource TabControlSliding}" Margin="10">
+
+                <hc:TabItem>
+                    <hc:TabItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                            <iconPacks:PackIconMaterial Kind="Cogs" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static properties:Resources.Configuring}"/>
+                        </StackPanel>
+                        
+                    </hc:TabItem.Header>
+                    <hc:ScrollViewer>
+                        <StackPanel Margin="10" IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+                            <ContentControl Content="{Binding DeviceSettingsTabViewModel, Mode=TwoWay}" Height="Auto"/>
+                        </StackPanel>
+                    </hc:ScrollViewer>
+                </hc:TabItem>
+
+                <hc:TabItem>
+                    
+                    <hc:TabItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+
+                            <iconPacks:PackIconMaterial Kind="Video" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static properties:Resources.CameraList}"/>
+
+                        </StackPanel>
+                    </hc:TabItem.Header>
+
+                    <DataGrid hc:DataGridAttach.ShowRowNumber="False"         
+                              Grid.Row="0"
+                              Style="{StaticResource DataGrid.Small}"
+                              RowHeight="35" 
+                              AutoGenerateColumns="False"                    
+                              RowHeaderWidth="60"                   
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserResizeRows="False"
+                              CanUserResizeColumns="False"
+                              CanUserSortColumns="True"
+                              SelectionMode="Single"
+                              ItemsSource="{Binding SelectedDevice.ListCameras, Mode=OneWay}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{x:Static properties:Resources.Port}"            
+                                                Width="Auto"
+                                                Binding="{Binding Port, Mode=OneWay}"/>
+
+                            <DataGridTextColumn Header="{x:Static properties:Resources.IpAddress}"            
+                                                Width="*"
+                                                Binding="{Binding Ip, Mode=OneWay}"/>
+
+                            <DataGridTextColumn Header="{x:Static properties:Resources.Mac}" 
+                                                MinWidth="150"
+                                                Width="*"
+                                                Binding="{Binding Mac, Mode=OneWay}"/>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    
+                </hc:TabItem>
+
+                <hc:TabItem>
+
+                    <hc:TabItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+
+                            <iconPacks:PackIconMaterial Kind="Upload" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static properties:Resources.Updating}"/>
+
+                        </StackPanel>
+                    </hc:TabItem.Header>
+                    <hc:ScrollViewer>
+
+                        <StackPanel Margin="10" IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+
+                            <ContentControl Content="{Binding DfuUpdateTabViewModel, Mode=TwoWay}"/>
+
+                        </StackPanel>
+                    </hc:ScrollViewer>
+
+                </hc:TabItem>
+
+                <hc:TabItem>
+
+                    <hc:TabItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+
+                            <iconPacks:PackIconMaterial Kind="Clock" Margin="0,0,5,0" Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            <TextBlock Text="{x:Static properties:Resources.SNTP}"/>
+
+                        </StackPanel>
+                    </hc:TabItem.Header>
+                    <StackPanel Margin="10" IsEnabled="{Binding ElementName=DeviceList, Path=SelectedItem, Converter={StaticResource ObjectToBooleanConverter}, Mode=TwoWay}">
+
+                        <ContentControl Content="{Binding SntpSettingsTabViewModel, Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </hc:TabItem>
+
+            </hc:TabControl>
+
+            <GroupBox Grid.Row="1" Margin="10,0,10,0">
+                <GroupBox.Header>
+                    <TextBlock Text="{x:Static properties:Resources.GroupSettings}"/>
+                </GroupBox.Header>
+                <StackPanel>
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="5" 
+                                      IsChecked="{Binding GroupSnmpEnabled}" 
+                                      IsEnabled="{Binding ElementName=DeviceList, Path=HasItems, Mode=OneWay}"/>
+                            <TextBlock Text="{x:Static properties:Resources.EnableSnmp}" Margin="5"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Margin="5" 
+                                      IsChecked="{Binding GroupLldpEnabled}" 
+                                      IsEnabled="{Binding ElementName=DeviceList, Path=HasItems, Mode=OneWay}"/>
+                            <TextBlock Text="{x:Static properties:Resources.EnableLLDP}" Margin="5"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding GroupSettingsApplyingProgress}" Margin="10" HorizontalAlignment="Center"/>
+
+                        <hc:ProgressButton Grid.Column="4"   
+                                           Command = "{s:Action ConfirmGroupSettingsCommand}"
+                                           IsChecked="{Binding GroupSettingApplyingInProgress, Mode=OneWay}"
+                                           Style="{StaticResource ToggleButtonLoadingPrimary}"
+                                           Progress="0" 
+                                           Width="160"
+                                           Height="30"
+                                           Cursor="Hand"
+                                           Content="{x:Static properties:Resources.Apply}"
+                                           IsEnabled="{Binding ElementName=DeviceList, Path=HasItems, Mode=OneWay}">
+
+                        </hc:ProgressButton>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+        </Grid>
+    </Grid>
+</UserControl>

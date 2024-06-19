@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="TFortisDeviceManager.Views.GMapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:models="clr-namespace:TFortisDeviceManager.Models" 
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:converters="clr-namespace:TFortisDeviceManager.Converters"  
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties"  
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:views="clr-namespace:TFortisDeviceManager.Views" 
+             xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:GMapViewModel}" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local:DeviceOnMapToIconConverter x:Key="DeviceOnMapToIconConverter"/>
+        <local:DeviceStateToColorConverter x:Key="DeviceStateToColorConverter"/>
+        <local:DeviceStateToIconConverter x:Key="DeviceStateToIconConverter"/>
+        <local:MarkerToMarkerViewConverter x:Key="MarkerToMarkerViewConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="520"/>
+        </Grid.ColumnDefinitions>
+
+        <gmaps:GMapControl Margin="-5,-5,-5,-5" 
+                           Grid.Column="0" 
+                           Grid.ColumnSpan="2" 
+                           Name="gmapControl" 
+                           Loaded="gmapControl_Loaded" 
+                           MouseDoubleClick="gmapControl_MouseDoubleClick"
+                           OnMapZoomChanged="gmapControl_OnMapZoomChanged"
+                           OnPositionChanged="gmapControl_OnPositionChanged">
+
+        </gmaps:GMapControl>
+        
+        <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <ToggleButton HorizontalAlignment="Right" Cursor="Hand" BorderThickness="0" hc:BorderElement.CornerRadius="25" Style="{StaticResource ToggleButtonPrimary}" Height="50" Width="50" Margin="12" IsChecked="False" Name="ButtonVisibilitySwitch">
+                <iconPacks:PackIconMaterial Kind="Menu" Foreground="White" Height="20" Width="20"/>
+            </ToggleButton>
+            <UniformGrid Visibility="{Binding IsChecked,ElementName=ButtonVisibilitySwitch,Converter={StaticResource Boolean2VisibilityConverter}}" Rows="3" Columns="1">
+
+                <hc:TransitioningContentControl Height="250" TransitionMode="Top2BottomWithFade">
+                    <GroupBox Header="{x:Static properties:Resources.DevicesInMonitoring}" Margin="5">
+
+                        <DataGrid BorderThickness="0"
+                            Grid.Row="0" 
+                            hc:Empty.ShowEmpty="True"
+                            HorizontalAlignment="Center"
+                            TextBlock.FontSize="12"                                                                                    
+                            Width="500"    
+                            ItemsSource="{Binding MonitoringDevices, Mode=TwoWay}"      
+                            SelectedItem="{Binding SelectedDevice, Mode=OneWayToSource}"    
+                            Style="{StaticResource DataGrid.Small}"    
+                            RowHeight="35"    
+                            CanUserAddRows="False"   
+                            hc:DataGridAttach.ShowRowNumber="False"        
+                            CanUserDeleteRows="False"   
+                            AutoGenerateColumns="False"   
+                            CanUserResizeRows="False"  
+                            CanUserResizeColumns="True"    
+                            CanUserSortColumns="True"    
+                            SelectionMode="Single"   
+                            Sorting="{s:Action TableSortCommand}"
+                            x:Name="DevicesForMonitoring"   
+                            HorizontalContentAlignment="Center">
+
+                            <DataGrid.Columns>
+                                
+                                <DataGridTemplateColumn MinWidth="35" Width="35" CanUserResize="False">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <iconPacks:PackIconMaterial Kind="{Binding Available, Converter={StaticResource DeviceStateToIconConverter}}" Foreground="{Binding Available, Converter={StaticResource DeviceStateToColorConverter}}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTextColumn Width="*" MinWidth="80" CanUserResize="False" Header="{x:Static properties:Resources.Name}" Binding="{Binding Name, Mode=OneWay}"/>
+                                <DataGridTextColumn Width="*" MinWidth="80" CanUserResize="False" Header="{x:Static properties:Resources.IpAddress}" Binding="{Binding IpAddress, Mode=OneWay}" SortMemberPath="IpAddress"/>
+                                <DataGridTextColumn Width="*" MinWidth="100" Header="{x:Static properties:Resources.Description}" Binding="{Binding Description, Mode=OneWay}"/>
+
+                                <DataGridTemplateColumn Width="68" Header="{x:Static properties:Resources.OnMap}">
+   
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <iconPacks:PackIconMaterial Kind="{Binding OnMap, Converter={StaticResource DeviceOnMapToIconConverter}}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </hc:TransitioningContentControl>
+
+                <hc:TransitioningContentControl Height="250" TransitionMode="Top2BottomWithFade">
+
+                    <GroupBox Header="{x:Static properties:Resources.Markers}" Margin="5">
+
+                    <DataGrid BorderThickness="0"
+                              Grid.Row="1"     
+                              hc:Empty.ShowEmpty="True"
+                              Width="500"   
+                              HorizontalAlignment="Center"                 
+                              Margin="3"                                   
+                              TextBlock.FontSize="12"               
+                              ItemsSource="{Binding Markers, Mode=TwoWay}"                    
+                              Style="{StaticResource DataGrid.Small}"
+                              RowHeight="35" 
+                              CanUserAddRows="False"
+                              hc:DataGridAttach.ShowRowNumber="False"    
+                              CanUserDeleteRows="False"
+                              AutoGenerateColumns="False"
+                              CanUserResizeRows="False"
+                              CanUserSortColumns="True"
+                              Sorting="{s:Action TableSortCommand}"
+                              SelectionMode="Single"
+                              HorizontalContentAlignment="Center">
+
+                            <DataGrid.Columns>
+                                                              
+                                <DataGridTextColumn Width="Auto" MinWidth="80" CanUserResize="False" Header="{x:Static properties:Resources.Name}" Binding="{Binding DeviceName, Mode=OneWay}"/>
+                                <DataGridTextColumn Width="Auto" MinWidth="80" CanUserResize="False" Header="{x:Static properties:Resources.IpAddress}" Binding="{Binding Ip, Mode=OneWay}" SortMemberPath="IpAddress"/>
+                                <DataGridTextColumn Width="*" MinWidth="80" CanUserResize="False" Header="{x:Static properties:Resources.N}" Binding="{Binding X, Mode=OneWay}"/>
+                                <DataGridTextColumn Width="*" MinWidth="100" CanUserResize="False" Header="{x:Static properties:Resources.E}" Binding="{Binding Y, Mode=OneWay}"/>
+
+                                <DataGridTemplateColumn MinWidth="55" Width="55" CanUserResize="False">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{s:Action DeleteMarkerCommand}" CommandParameter="{Binding Ip}" BorderThickness="0" Background="Transparent" Cursor="Hand">
+                                                <iconPacks:PackIconMaterial Kind="TrashCan"/>
+                                            </Button>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                          
+                        </DataGrid>
+                        </GroupBox>
+                   
+                </hc:TransitioningContentControl>
+
+            </UniformGrid>
+
+            
+            
+        </StackPanel>
+        
+       
+    </Grid>
+    
+</UserControl>

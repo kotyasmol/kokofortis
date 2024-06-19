@@ -1,0 +1,156 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:viewmodels="clr-namespace:TFortisDeviceManager.ViewModels" 
+             xmlns:local="clr-namespace:TFortisDeviceManager.Converters"
+             xmlns:properties="clr-namespace:TFortisDeviceManager.Properties" xmlns:models="clr-namespace:TFortisDeviceManager.Models" d:DataContext="{d:DesignInstance Type=viewmodels:MonitoringSettingsViewModel}"
+             x:Class="TFortisDeviceManager.Views.MonitoringSettingsView"
+             mc:Ignorable="d" 
+             d:DesignHeight="560" d:DesignWidth="860">
+    
+    <UserControl.Resources>
+        <local:ColumnSettingsConverter x:Key="ColumnSettingsConverter"/>
+    </UserControl.Resources>
+        
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto" MinHeight="60"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel HorizontalAlignment="Left" Width="564">
+
+            <TextBlock Text="{x:Static properties:Resources.MonitoringSettings}" Margin="10,30,0,0" FontWeight="Bold" FontSize="14"/>
+
+            <Border  BorderBrush="#FFD0D1D7" Margin="10,0,10,0" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
+                    <DockPanel Width="320">
+                        <TextBlock Text="{x:Static properties:Resources.SNMPAwait}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Width="140" >
+                        <hc:NumericUpDown  Value="{Binding SNMPTimeout, Mode=TwoWay}" Minimum="5"/>
+                        <TextBlock Text="{x:Static properties:Resources.Seconds}" Width="60" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border BorderBrush="#FFD0D1D7" Margin="10,0,10,0" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,0,10">
+                    <DockPanel Width="320">
+                        <TextBlock Text="{x:Static properties:Resources.UptimeCheckPeriod}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Width="140" >
+                        <hc:NumericUpDown  Value="{Binding UptimeCheckPeriod, Mode=TwoWay}" Minimum="10"/>
+                        <TextBlock Text="{x:Static properties:Resources.Seconds}" Width="60" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border  BorderBrush="#FFD0D1D7" Margin="10,0,10,0" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,0,10">
+
+                    <DockPanel Width="320">
+                        <TextBlock Text="{x:Static properties:Resources.SensorReadPeriod}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center"  />
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" Width="140" >
+                        <hc:NumericUpDown  Value="{Binding SensorReadPeriod, Mode=TwoWay}" Minimum="10"/>
+                        <TextBlock Text="{x:Static properties:Resources.Seconds}" Width="60" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border  BorderBrush="#FFD0D1D7" Margin="10,0,10,0" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,0,10">
+
+                    <DockPanel Width="320">
+                        <TextBlock Text="{x:Static properties:Resources.AutoHideNotifications}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" Width="140" >
+                        
+                        <CheckBox HorizontalAlignment="Right" IsChecked="{Binding IsAutoHideNotifications}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border  BorderBrush="#FFD0D1D7" Margin="10,0,10,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,0,10">
+
+                    <DockPanel Width="320">
+                        <TextBlock Text="{x:Static properties:Resources.HideNotificationsAfter}" TextWrapping="Wrap" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" Width="140" >
+                        <hc:NumericUpDown  Value="{Binding HideNotificationsAfter, Mode=TwoWay}" Minimum="10" Maximum="60" IsEnabled="{Binding IsAutoHideNotifications}"/>
+                        <TextBlock Text="{x:Static properties:Resources.Seconds}" Width="60" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{x:Static properties:Resources.ColumnVisibilitySettings}" Margin="10,30,0,0" FontWeight="Bold" FontSize="14"/>
+
+<Border  BorderBrush="#FFD0D1D7" Margin="10,0,10,0" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,0,10">
+                    <hc:CheckComboBox  x:Name="DeviceColumnsList" 
+                                       Margin="0,0,50,0" 
+                                       hc:ListBoxAttach.SelectedItems="{Binding SelectedDeviceColumns, Mode=OneWay}" 
+                                       ItemsSource="{Binding DeviceColumnsVisibility, Mode=OneWay}"                                            
+                                       Width="200" 
+                                       hc:InfoElement.TitleWidth="140" 
+                                       hc:InfoElement.TitlePlacement="Top" 
+                                       hc:InfoElement.Placeholder="{x:Static properties:Resources.ChooseColumns}" 
+                                       hc:InfoElement.Title="{x:Static properties:Resources.DevicesTable}" 
+                                       Style="{StaticResource CheckComboBoxPlus}">
+                    </hc:CheckComboBox>
+
+                    <hc:CheckComboBox x:Name="EventColumnsList"
+                                      Margin="50,0,0,0" 
+                                      MaxWidth="380" 
+                                      hc:ListBoxAttach.SelectedItems="{Binding SelectedEventColumns, Mode=OneWay}" 
+                                      ItemsSource="{Binding EventColumnsVisibility}" 
+                                      Width="200" hc:InfoElement.TitleWidth="140" 
+                                      hc:InfoElement.TitlePlacement="Top" 
+                                      hc:InfoElement.Placeholder="{x:Static properties:Resources.ChooseColumns}" 
+                                      hc:InfoElement.Title="{x:Static properties:Resources.EventsTable}" 
+                                      Style="{StaticResource CheckComboBoxPlus}"/>
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
+
+                <Button 
+                    Style="{StaticResource ButtonPrimary}" 
+                    Content="{x:Static properties:Resources.Confirm}" 
+                    Margin="20,0,40,0"   
+                    HorizontalAlignment="Left"
+                    Command="{s:Action SetDeviceTableSettings}"
+                    Cursor="Hand">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ColumnSettingsConverter}">
+                            <Binding ElementName="DeviceColumnsList" Path="SelectedItems"/>
+                            <Binding ElementName="EventColumnsList" Path="SelectedItems"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+                
+                <Button Style="{StaticResource ButtonPrimary}" 
+        Content="{x:Static properties:Resources.EventExport}" 
+        Margin="20,0,0,0"
+        HorizontalAlignment="Left"
+        Command="{s:Action ExportEventsCommand}"
+        Cursor="Hand">
+                </Button>
+                
+            </StackPanel>
+            
+        </StackPanel>
+
+       
+
+    </Grid>
+</UserControl>
+

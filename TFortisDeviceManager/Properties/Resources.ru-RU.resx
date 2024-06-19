@@ -1,0 +1,793 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="AboutProgramLabelForProgramLink" xml:space="preserve">
+    <value>Дополнительную информацию о программе можно узнать по ссылке:</value>
+  </data>
+  <data name="AboutProgramm" xml:space="preserve">
+    <value>TFortis Device Manager - это программа для поиска устройств TFortis (управляемых коммутаторов серий PSW, SWU, трансляторов сухих контактов TELEPORT) производства ООО «Форт-Телеком» в сети, их конфигурирования и мониторинга.</value>
+  </data>
+  <data name="AddingToMonitoring" xml:space="preserve">
+    <value>Добавление в мониторинг</value>
+  </data>
+  <data name="AddressCompany" xml:space="preserve">
+    <value>г. Пермь, ул. Бульвар Гагарина, 65а</value>
+  </data>
+  <data name="AddToMailingList" xml:space="preserve">
+    <value>Чтобы получать уведомления, добавьте его в список для рассылки в программе TFortisDeviceManager</value>
+  </data>
+  <data name="AddToMap" xml:space="preserve">
+    <value>Добавить на топологию</value>
+  </data>
+  <data name="AddToMonitoring" xml:space="preserve">
+    <value>Добавить в мониторинг</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Возраст</value>
+  </data>
+  <data name="AlertSendingSettings" xml:space="preserve">
+    <value>Настройки отправки оповещений</value>
+  </data>
+  <data name="AlertSettings" xml:space="preserve">
+    <value>Настройки оповещений</value>
+  </data>
+  <data name="AlertTitle" xml:space="preserve">
+    <value>Тема письма</value>
+  </data>
+  <data name="AlreadyRunningError" xml:space="preserve">
+    <value>Ошибка! Экземпляр приложения уже запущен</value>
+  </data>
+  <data name="AppLanguage" xml:space="preserve">
+    <value>Язык приложения</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Принять</value>
+  </data>
+  <data name="ApplySettingsSuccessful" xml:space="preserve">
+    <value>Настройки применены</value>
+  </data>
+  <data name="AuthenticationError" xml:space="preserve">
+    <value>Ошибка аутентификации</value>
+  </data>
+  <data name="AuthenticationTitle" xml:space="preserve">
+    <value>TFortisDeviceManager | Аутентификация</value>
+  </data>
+  <data name="AuthorisationError" xml:space="preserve">
+    <value>Ошибка авторизации</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Автоматически</value>
+  </data>
+  <data name="AutoHideNotifications" xml:space="preserve">
+    <value>Скрывать уведомления автоматически</value>
+  </data>
+  <data name="BotAccessList" xml:space="preserve">
+    <value>Список пользователей, имеющих доступ к боту</value>
+  </data>
+  <data name="CameraList" xml:space="preserve">
+    <value>Список камер</value>
+  </data>
+  <data name="CameraListTitle" xml:space="preserve">
+    <value>TFortisDeviceManager | Список камер</value>
+  </data>
+  <data name="CamerasList" xml:space="preserve">
+    <value>Список камер</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Проверять</value>
+  </data>
+  <data name="ChooseAction" xml:space="preserve">
+    <value>Выберите действие</value>
+  </data>
+  <data name="ChooseColumns" xml:space="preserve">
+    <value>Выберите столбцы...</value>
+  </data>
+  <data name="ChooseDfuFile" xml:space="preserve">
+    <value>Выберите файл прошивки</value>
+  </data>
+  <data name="ClearBackgroung" xml:space="preserve">
+    <value>Очистить фон</value>
+  </data>
+  <data name="ClearMap" xml:space="preserve">
+    <value>Очистить топологию</value>
+  </data>
+  <data name="CollapseMenu" xml:space="preserve">
+    <value>Свернуть меню</value>
+  </data>
+  <data name="ColumnVisibilitySettings" xml:space="preserve">
+    <value>Настройки отображения дополнительных столбцов таблиц</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Общие настройки</value>
+  </data>
+  <data name="ConfigError" xml:space="preserve">
+    <value>Ошибка конфигурации</value>
+  </data>
+  <data name="Configuring" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Принять</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Подтверждение</value>
+  </data>
+  <data name="ConfirmToAll" xml:space="preserve">
+    <value>Применить для всех</value>
+  </data>
+  <data name="ContinuousOperationTime" xml:space="preserve">
+    <value>Время непрерывной работы</value>
+  </data>
+  <data name="CreateDeviceError" xml:space="preserve">
+    <value>Ошибка создания устройства. {0}</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Темная</value>
+  </data>
+  <data name="DatabaseConnectError" xml:space="preserve">
+    <value>Не удается подключиться к базе данных</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>д.</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>дней</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteFromMonitoring" xml:space="preserve">
+    <value>Удалить из мониторинга</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="DescriptionDeviceAvilable" xml:space="preserve">
+    <value>Устройство доступно</value>
+  </data>
+  <data name="DescriptionDeviceNotAvilable" xml:space="preserve">
+    <value>Устройство недоступно</value>
+  </data>
+  <data name="DescriptionHostReloaded" xml:space="preserve">
+    <value>Хост перезапущен</value>
+  </data>
+  <data name="DeviceAdding" xml:space="preserve">
+    <value>Добавление устройства</value>
+  </data>
+  <data name="DeviceDescription" xml:space="preserve">
+    <value>Описание устройства</value>
+  </data>
+  <data name="DeviceExistsOnMapMessage" xml:space="preserve">
+    <value>Устройство с таким IP уже есть на топологии</value>
+  </data>
+  <data name="DeviceInformation" xml:space="preserve">
+    <value>Информация об устройстве</value>
+  </data>
+  <data name="DeviceIsAlreadyAdded" xml:space="preserve">
+    <value>Устройство уже в списке для мониторинга</value>
+  </data>
+  <data name="DeviceIsAlreadyExists" xml:space="preserve">
+    <value>Устройство с таким IP уже есть на карте</value>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Список устройств</value>
+  </data>
+  <data name="DeviceListIsEmpty" xml:space="preserve">
+    <value>Список устройств пуст</value>
+  </data>
+  <data name="DeviceNotAvailable" xml:space="preserve">
+    <value>Устройство недоступно</value>
+  </data>
+  <data name="DeviceNotFoundInJson" xml:space="preserve">
+    <value>Модель c Id {0} не найдена в Json-файле</value>
+  </data>
+  <data name="DeviceNotRespond" xml:space="preserve">
+    <value>Устройство не отвечает </value>
+  </data>
+  <data name="DeviceSettings" xml:space="preserve">
+    <value>Настройка устройства</value>
+  </data>
+  <data name="DeviceSettingsTitle" xml:space="preserve">
+    <value>Настройка устройства</value>
+  </data>
+  <data name="DevicesInMonitoring" xml:space="preserve">
+    <value>Устройства в мониторинге</value>
+  </data>
+  <data name="DevicesInMonitoringList" xml:space="preserve">
+    <value>Список устройств в мониторинге</value>
+  </data>
+  <data name="DevicesNotFound" xml:space="preserve">
+    <value>Устройства не найдены</value>
+  </data>
+  <data name="DevicesTable" xml:space="preserve">
+    <value>Таблица устройств</value>
+  </data>
+  <data name="DeviceWithAddressNotFound" xml:space="preserve">
+    <value>Устройства с ввденным адресом нет в списке для мониторинга</value>
+  </data>
+  <data name="DfuUpdated" xml:space="preserve">
+    <value>ПО обновлено, повторите поиск</value>
+  </data>
+  <data name="E" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="EnableLLDP" xml:space="preserve">
+    <value>Включить LLDP</value>
+  </data>
+  <data name="EnablePoe" xml:space="preserve">
+    <value>Включить PoE</value>
+  </data>
+  <data name="EnablePort" xml:space="preserve">
+    <value>Включить порт</value>
+  </data>
+  <data name="EnableSnmp" xml:space="preserve">
+    <value>Включить SNMP</value>
+  </data>
+  <data name="EnableSNTP" xml:space="preserve">
+    <value>Включить SNTP</value>
+  </data>
+  <data name="EnterIP" xml:space="preserve">
+    <value>Введите IP</value>
+  </data>
+  <data name="EnterLoginAndPassword" xml:space="preserve">
+    <value>Введите логин и пароль</value>
+  </data>
+  <data name="ErrorWhileClearingFlash" xml:space="preserve">
+    <value>Возникла ошибка при попытке очистить память</value>
+  </data>
+  <data name="ErrorWhileUpdating" xml:space="preserve">
+    <value>Возникла ошибка при попытке обновитьПО</value>
+  </data>
+  <data name="ErrorWhileUploading" xml:space="preserve">
+    <value>Возникла ошибка при попытке загрузить файл</value>
+  </data>
+  <data name="EventDescription" xml:space="preserve">
+    <value>Описание события</value>
+  </data>
+  <data name="EventExport" xml:space="preserve">
+    <value>Экспорт событий</value>
+  </data>
+  <data name="EventListWithAddress" xml:space="preserve">
+    <value>Список событий с адресом</value>
+  </data>
+  <data name="EventsTable" xml:space="preserve">
+    <value>Таблица событий</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="ExpandMenu" xml:space="preserve">
+    <value>Развернуть меню</value>
+  </data>
+  <data name="ExpandWindow" xml:space="preserve">
+    <value>Разворачивать окно при аварии</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="FileTooBig" xml:space="preserve">
+    <value>Файл слишком большой</value>
+  </data>
+  <data name="FileUploading" xml:space="preserve">
+    <value>Загрузка файла</value>
+  </data>
+  <data name="Firmware" xml:space="preserve">
+    <value>Версия прошивки</value>
+  </data>
+  <data name="FoundedDevicesList" xml:space="preserve">
+    <value>Список найденных устройств</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="Fullscreen" xml:space="preserve">
+    <value>Полный экран</value>
+  </data>
+  <data name="Gateway" xml:space="preserve">
+    <value>Сетевой шлюз</value>
+  </data>
+  <data name="GatewayValidationError" xml:space="preserve">
+    <value>Неверный формат шлюза</value>
+  </data>
+  <data name="GetCommandList" xml:space="preserve">
+    <value>Для получения списка доступных комманд отправьте</value>
+  </data>
+  <data name="GetDeviceListInMonitoring" xml:space="preserve">
+    <value>получить список устройств в мониторинге</value>
+  </data>
+  <data name="GroupSettings" xml:space="preserve">
+    <value>Групповая настройка</value>
+  </data>
+  <data name="HideNotificationsAfter" xml:space="preserve">
+    <value>Скрывать уведомления через</value>
+  </data>
+  <data name="HostStatus" xml:space="preserve">
+    <value>Состояние устройства</value>
+  </data>
+  <data name="HostStatusDisabled" xml:space="preserve">
+    <value>Выключен</value>
+  </data>
+  <data name="HostStatusEnabled" xml:space="preserve">
+    <value>Включен</value>
+  </data>
+  <data name="HostStatusReloaded" xml:space="preserve">
+    <value>Перезапущен</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>ч.</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Загрузить настройки</value>
+  </data>
+  <data name="Invert" xml:space="preserve">
+    <value>Инвертировать</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="IpValidationError" xml:space="preserve">
+    <value>Неверный формат IP-адреса</value>
+  </data>
+  <data name="KeepEventInDatabase" xml:space="preserve">
+    <value>Хранить события в базе данных</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Светлая</value>
+  </data>
+  <data name="LinkForProgramm" xml:space="preserve">
+    <value>https://tfortis.ru/producty/po-tfortis-device-manager-new/</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Местоположение</value>
+  </data>
+  <data name="Mac" xml:space="preserve">
+    <value>MAC адрес</value>
+  </data>
+  <data name="MailForContact" xml:space="preserve">
+    <value>ponomarev@fort-telecom.ru</value>
+  </data>
+  <data name="MainMenuGMap" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="MainMenuGraphics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="MainMenuMap" xml:space="preserve">
+    <value>Топология сети</value>
+  </data>
+  <data name="MainMenuMonitoring" xml:space="preserve">
+    <value>Мониторинг</value>
+  </data>
+  <data name="MainMenuSearch" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="MainMenuSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ManualAdding" xml:space="preserve">
+    <value>Ручное добавление</value>
+  </data>
+  <data name="MapProvider" xml:space="preserve">
+    <value>Провайдер карт</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Настройки карты</value>
+  </data>
+  <data name="Markers" xml:space="preserve">
+    <value>Маркеры</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>м.</value>
+  </data>
+  <data name="Monitoring" xml:space="preserve">
+    <value>Мониторинг</value>
+  </data>
+  <data name="MonitoringConfiguration" xml:space="preserve">
+    <value>Настройки монитоиринга</value>
+  </data>
+  <data name="MonitoringDevicesIsEmpty" xml:space="preserve">
+    <value>Список устройств для мониторинга пуст</value>
+  </data>
+  <data name="MonitoringSettings" xml:space="preserve">
+    <value>Настройки мониторинга</value>
+  </data>
+  <data name="N" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="NameCompany" xml:space="preserve">
+    <value>ООО «Форт-Телеком»</value>
+  </data>
+  <data name="NetworkMask" xml:space="preserve">
+    <value>Маска</value>
+  </data>
+  <data name="NetworkMaskValidationError" xml:space="preserve">
+    <value>Неверный формат маски подсети</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>Вы не авторизованы</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="NotificationSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\NotificationSound.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>OFFLINE</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>ONLINE</value>
+  </data>
+  <data name="OnMap" xml:space="preserve">
+    <value>На карте</value>
+  </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Открыть веб интерфейс</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="Poe" xml:space="preserve">
+    <value>PoE</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="PreparingToUpload" xml:space="preserve">
+    <value>Подготовка к загрузке</value>
+  </data>
+  <data name="psw_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Views\Images\psw_disabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="psw_enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Views\Images\psw_enabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RebootDevice" xml:space="preserve">
+    <value>Перезагрузить </value>
+  </data>
+  <data name="RebootDeviceConfirmation" xml:space="preserve">
+    <value>Перезапустить устройство?</value>
+  </data>
+  <data name="RebootSuccessful" xml:space="preserve">
+    <value>Устройство перезапущено</value>
+  </data>
+  <data name="ReceiversList" xml:space="preserve">
+    <value>Список адресов для отправки</value>
+  </data>
+  <data name="RecipientAddress" xml:space="preserve">
+    <value>Адрес получателя</value>
+  </data>
+  <data name="ResetSettings" xml:space="preserve">
+    <value>Сбросить настройки</value>
+  </data>
+  <data name="ResetSuccessful" xml:space="preserve">
+    <value>Настройки сброшены</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>Поиск устройств</value>
+  </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Настройки поиска</value>
+  </data>
+  <data name="SearchTimeout" xml:space="preserve">
+    <value>Время поиска устройств в сети</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>секунд</value>
+  </data>
+  <data name="SelectBackground" xml:space="preserve">
+    <value>Выбрать фон</value>
+  </data>
+  <data name="SelectedFile" xml:space="preserve">
+    <value>Выбранный файл</value>
+  </data>
+  <data name="SelectModel" xml:space="preserve">
+    <value>Выберите модель</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="SendEmailIfAvilabilityChanged" xml:space="preserve">
+    <value>Отправлять уведомление при изменении доступности устройства</value>
+  </data>
+  <data name="SenderAddress" xml:space="preserve">
+    <value>Адрес отправителя</value>
+  </data>
+  <data name="SendIpAddressToGetSensorList" xml:space="preserve">
+    <value>Для получения списка сенсоров отправьте IP-адрес устройства</value>
+  </data>
+  <data name="SendTestNotification" xml:space="preserve">
+    <value>Отправить тестовое уведомление</value>
+  </data>
+  <data name="SendTestNotificationClicked" xml:space="preserve">
+    <value>Нажата кнопка отправки тестового уведомления</value>
+  </data>
+  <data name="Sensor" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="SensorErrorExceptionValue" xml:space="preserve">
+    <value>Ошибка чтения</value>
+  </data>
+  <data name="SensorNameHostStatus" xml:space="preserve">
+    <value>Статус устройства</value>
+  </data>
+  <data name="SensorReadPeriod" xml:space="preserve">
+    <value>Период чтения сенсоров</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Серийный номер</value>
+  </data>
+  <data name="ServerIpAddress" xml:space="preserve">
+    <value>IP-адрес сервера</value>
+  </data>
+  <data name="SettingsConfirmed" xml:space="preserve">
+    <value>Настройки применены</value>
+  </data>
+  <data name="SettingsSetConfirmation" xml:space="preserve">
+    <value>Применить настройки?</value>
+  </data>
+  <data name="SettingsSetSuccessful" xml:space="preserve">
+    <value>Настройки применены</value>
+  </data>
+  <data name="ShouldRestartAppMessage" xml:space="preserve">
+    <value>Необходимо перезапустить приложение.</value>
+  </data>
+  <data name="SiteUrl" xml:space="preserve">
+    <value>https://tfortis.ru</value>
+  </data>
+  <data name="SMTPServer" xml:space="preserve">
+    <value>SMTP-сервер</value>
+  </data>
+  <data name="SNMPAwait" xml:space="preserve">
+    <value>Время ожидания ответа по SNMP</value>
+  </data>
+  <data name="SNMPCommunity" xml:space="preserve">
+    <value>SNMP community</value>
+  </data>
+  <data name="SNTP" xml:space="preserve">
+    <value>SNTP</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Сортировать</value>
+  </data>
+  <data name="SslProtection" xml:space="preserve">
+    <value>SSL шифрование</value>
+  </data>
+  <data name="StartSearching" xml:space="preserve">
+    <value>Начать поиск</value>
+  </data>
+  <data name="StartTelegramSearching" xml:space="preserve">
+    <value>начать поиск устройств в сети</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="StatusInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="StatusOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="StatusProblem" xml:space="preserve">
+    <value>Problem</value>
+  </data>
+  <data name="StatusWarning" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>Системная</value>
+  </data>
+  <data name="TelCompany" xml:space="preserve">
+    <value>8-800-100-112-8, (342) 260-20-30</value>
+  </data>
+  <data name="TelegramSettings" xml:space="preserve">
+    <value>Настройки Telegram</value>
+  </data>
+  <data name="TelegramToken" xml:space="preserve">
+    <value>Токен телеграм-бота</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема приложения</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Времени осталось</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Периодичность опроса</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>Часовой пояс</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="UpdatingWait" xml:space="preserve">
+    <value>Обновление ПО, пожалуйста подождите</value>
+  </data>
+  <data name="UploadedSuccessful" xml:space="preserve">
+    <value>успешно загружен</value>
+  </data>
+  <data name="UpTime" xml:space="preserve">
+    <value>Время работы</value>
+  </data>
+  <data name="UptimeCheckPeriod" xml:space="preserve">
+    <value>Период проверки uptime</value>
+  </data>
+  <data name="UseAuthentificating" xml:space="preserve">
+    <value>Использовать аутентификацию</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="UserPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия:</value>
+  </data>
+  <data name="WindowedMode" xml:space="preserve">
+    <value>Оконный режим</value>
+  </data>
+  <data name="YourUniqueId" xml:space="preserve">
+    <value>Ваш уникальный id:</value>
+  </data>
+</root>

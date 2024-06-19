@@ -1,0 +1,23 @@
+﻿<Application x:Class="TFortisDeviceManager.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="https://github.com/canton7/Stylet"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:TFortisDeviceManager">
+    <Application.Resources>
+        <s:ApplicationLoader>
+            <s:ApplicationLoader.Bootstrapper>
+                <local:Bootstrapper/>
+            </s:ApplicationLoader.Bootstrapper>
+
+            <s:ApplicationLoader.MergedDictionaries>
+                <hc:ThemeResources UsingSystemTheme="True"/>
+                
+                <hc:Theme />
+
+                <ResourceDictionary Source="Resources\Icons.xaml"/>
+                
+            </s:ApplicationLoader.MergedDictionaries>
+        </s:ApplicationLoader>
+    </Application.Resources>
+</Application>

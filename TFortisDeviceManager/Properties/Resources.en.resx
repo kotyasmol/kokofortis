@@ -1,0 +1,799 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutProgramLabelForProgramLink" xml:space="preserve">
+    <value>Additional information about the software can be found at the link:</value>
+  </data>
+  <data name="AboutProgramm" xml:space="preserve">
+    <value>TFortis Device Manager - is a software for searching TFortis devices (managed switches of PSW, SWU series, TELEPORT inegration units)</value>
+  </data>
+  <data name="AddingToMonitoring" xml:space="preserve">
+    <value>Adding to monitoring</value>
+  </data>
+  <data name="AddressCompany" xml:space="preserve">
+    <value>Russia, Perm, Bulvar Gagarina 65-A</value>
+  </data>
+  <data name="AddToMailingList" xml:space="preserve">
+    <value>To receive notifications, add it to the mailing list in the TFortisDeviceManager program</value>
+  </data>
+  <data name="AddToMap" xml:space="preserve">
+    <value>Add to topology</value>
+  </data>
+  <data name="AddToMonitoring" xml:space="preserve">
+    <value>Add to monitoring</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="AlertSendingSettings" xml:space="preserve">
+    <value>Alert sending settings</value>
+  </data>
+  <data name="AlertSettings" xml:space="preserve">
+    <value>Notifications settings</value>
+  </data>
+  <data name="AlertTitle" xml:space="preserve">
+    <value>Alert letter title</value>
+  </data>
+  <data name="AlreadyRunningError" xml:space="preserve">
+    <value>Another instance is already running</value>
+  </data>
+  <data name="AppLanguage" xml:space="preserve">
+    <value>App language</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="ApplySettingsSuccessful" xml:space="preserve">
+    <value>Settings applied</value>
+  </data>
+  <data name="AuthenticationError" xml:space="preserve">
+    <value>Authentication error</value>
+  </data>
+  <data name="AuthenticationTitle" xml:space="preserve">
+    <value>TFortisDeviceManager | Authentication</value>
+  </data>
+  <data name="AuthorisationError" xml:space="preserve">
+    <value>Authorisation error</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="AutoHideNotifications" xml:space="preserve">
+    <value>Hide notifications automatically</value>
+  </data>
+  <data name="BotAccessList" xml:space="preserve">
+    <value>List of users with access to the bot</value>
+  </data>
+  <data name="CameraList" xml:space="preserve">
+    <value>Camera list</value>
+  </data>
+  <data name="CameraListTitle" xml:space="preserve">
+    <value>TFortisDeviceManager | Camera list</value>
+  </data>
+  <data name="CamerasList" xml:space="preserve">
+    <value>List of cameras</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="ChooseAction" xml:space="preserve">
+    <value>Choose an action</value>
+  </data>
+  <data name="ChooseColumns" xml:space="preserve">
+    <value>Choose columns</value>
+  </data>
+  <data name="ChooseDfuFile" xml:space="preserve">
+    <value>Select firmware file</value>
+  </data>
+  <data name="ClearBackground" xml:space="preserve">
+    <value>Clear background</value>
+  </data>
+  <data name="ClearBackgroung" xml:space="preserve">
+    <value>Clear background</value>
+  </data>
+  <data name="ClearMap" xml:space="preserve">
+    <value>Clear topology</value>
+  </data>
+  <data name="CollapseMenu" xml:space="preserve">
+    <value>Collapse menu</value>
+  </data>
+  <data name="ColumnVisibilitySettings" xml:space="preserve">
+    <value>Additional сolumn's visibility settings</value>
+  </data>
+  <data name="CommonSettings" xml:space="preserve">
+    <value>Common settings</value>
+  </data>
+  <data name="ConfigError" xml:space="preserve">
+    <value>Config error</value>
+  </data>
+  <data name="Configuring" xml:space="preserve">
+    <value>Configuring</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="ConfirmToAll" xml:space="preserve">
+    <value>Apply to everyone</value>
+  </data>
+  <data name="ContinuousOperationTime" xml:space="preserve">
+    <value>Continuous operation time</value>
+  </data>
+  <data name="CreateDeviceError" xml:space="preserve">
+    <value>Error while creating device</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="DatabaseConnectError" xml:space="preserve">
+    <value>Can't connect to database</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>d.</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteFromMonitoring" xml:space="preserve">
+    <value>Delete from monitoring</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescriptionDeviceAvilable" xml:space="preserve">
+    <value>Device avilable</value>
+  </data>
+  <data name="DescriptionDeviceNotAvilable" xml:space="preserve">
+    <value>Device not avilable</value>
+  </data>
+  <data name="DescriptionHostReloaded" xml:space="preserve">
+    <value>Host reloaded</value>
+  </data>
+  <data name="DeviceAdding" xml:space="preserve">
+    <value>Device adding</value>
+  </data>
+  <data name="DeviceDescription" xml:space="preserve">
+    <value>Device description</value>
+  </data>
+  <data name="DeviceExistsOnMapMessage" xml:space="preserve">
+    <value>A device with the same IP is already on the topology</value>
+  </data>
+  <data name="DeviceInformation" xml:space="preserve">
+    <value>Device information</value>
+  </data>
+  <data name="DeviceIsAlreadyAdded" xml:space="preserve">
+    <value>Device is already in monitoring list</value>
+  </data>
+  <data name="DeviceIsAlreadyExists" xml:space="preserve">
+    <value>A device with the same IP is already on the map</value>
+  </data>
+  <data name="DeviceList" xml:space="preserve">
+    <value>Device list</value>
+  </data>
+  <data name="DeviceListIsEmpty" xml:space="preserve">
+    <value>Device list is empty</value>
+  </data>
+  <data name="DeviceNotAvailable" xml:space="preserve">
+    <value>Device not available</value>
+  </data>
+  <data name="DeviceNotFoundInJson" xml:space="preserve">
+    <value>Device not found in JSON</value>
+  </data>
+  <data name="DeviceNotRespond" xml:space="preserve">
+    <value>Device not respond</value>
+  </data>
+  <data name="DeviceSettings" xml:space="preserve">
+    <value>Device settings</value>
+  </data>
+  <data name="DeviceSettingsTitle" xml:space="preserve">
+    <value>Device settings</value>
+  </data>
+  <data name="DevicesInMonitoring" xml:space="preserve">
+    <value>Devices in monitoring</value>
+  </data>
+  <data name="DevicesInMonitoringList" xml:space="preserve">
+    <value>List of devices in monitoring</value>
+  </data>
+  <data name="DevicesNotFound" xml:space="preserve">
+    <value>No devices found</value>
+  </data>
+  <data name="DevicesTable" xml:space="preserve">
+    <value>Device's table</value>
+  </data>
+  <data name="DeviceWithAddressNotFound" xml:space="preserve">
+    <value>The device with the entered address is not in the list for monitoring</value>
+  </data>
+  <data name="DfuUpdated" xml:space="preserve">
+    <value>Software updated, search again</value>
+  </data>
+  <data name="E" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="EnableLLDP" xml:space="preserve">
+    <value>Enable LLDP</value>
+  </data>
+  <data name="EnablePoe" xml:space="preserve">
+    <value>Enable PoE</value>
+  </data>
+  <data name="EnablePort" xml:space="preserve">
+    <value>Enable port</value>
+  </data>
+  <data name="EnableSnmp" xml:space="preserve">
+    <value>Enable SNMP</value>
+  </data>
+  <data name="EnableSNTP" xml:space="preserve">
+    <value>Enable SNTP</value>
+  </data>
+  <data name="EnterIP" xml:space="preserve">
+    <value>Enter IP</value>
+  </data>
+  <data name="EnterLoginAndPassword" xml:space="preserve">
+    <value>Enter login and password</value>
+  </data>
+  <data name="ErrorWhileClearingFlash" xml:space="preserve">
+    <value>An error occurred while trying to clear memory</value>
+  </data>
+  <data name="ErrorWhileUpdating" xml:space="preserve">
+    <value>An error occurred while trying to update your device</value>
+  </data>
+  <data name="ErrorWhileUploading" xml:space="preserve">
+    <value>An error occurred while trying to upload a file</value>
+  </data>
+  <data name="EventDescription" xml:space="preserve">
+    <value>Event description</value>
+  </data>
+  <data name="EventExport" xml:space="preserve">
+    <value>Event export</value>
+  </data>
+  <data name="EventListWithAddress" xml:space="preserve">
+    <value>List of events with address</value>
+  </data>
+  <data name="EventsTable" xml:space="preserve">
+    <value>Event's table</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="ExpandMenu" xml:space="preserve">
+    <value>Expand menu</value>
+  </data>
+  <data name="ExpandWindow" xml:space="preserve">
+    <value>Expand window</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FileTooBig" xml:space="preserve">
+    <value>File too big</value>
+  </data>
+  <data name="FileUploading" xml:space="preserve">
+    <value>Uploading a file</value>
+  </data>
+  <data name="Firmware" xml:space="preserve">
+    <value>Firmware</value>
+  </data>
+  <data name="FoundedDevicesList" xml:space="preserve">
+    <value>List of found devices</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Gateway" xml:space="preserve">
+    <value>Gateway</value>
+  </data>
+  <data name="GatewayValidationError" xml:space="preserve">
+    <value>Invalid gateway format</value>
+  </data>
+  <data name="GetCommandList" xml:space="preserve">
+    <value>To get a list of available commands, send</value>
+  </data>
+  <data name="GetDeviceListInMonitoring" xml:space="preserve">
+    <value>get a list of devices in monitoring</value>
+  </data>
+  <data name="GroupSettings" xml:space="preserve">
+    <value>Group settings</value>
+  </data>
+  <data name="HideNotificationsAfter" xml:space="preserve">
+    <value>Hide notifications after</value>
+  </data>
+  <data name="HostStatus" xml:space="preserve">
+    <value>Host status</value>
+  </data>
+  <data name="HostStatusDisabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="HostStatusEnabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="HostStatusReloaded" xml:space="preserve">
+    <value>Reloaded</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>h.</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="ImportSettings" xml:space="preserve">
+    <value>Import settings</value>
+  </data>
+  <data name="Invert" xml:space="preserve">
+    <value>Invert</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>IP - Address</value>
+  </data>
+  <data name="IpValidationError" xml:space="preserve">
+    <value>Invalid IP-address format</value>
+  </data>
+  <data name="KeepEventInDatabase" xml:space="preserve">
+    <value>Keep event in database</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="LinkForProgramm" xml:space="preserve">
+    <value>https://tfortis.ru/producty/po-tfortis-device-manager-new/</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Mac" xml:space="preserve">
+    <value>MAC-address</value>
+  </data>
+  <data name="MailForContact" xml:space="preserve">
+    <value>ponomarev@fort-telecom.ru</value>
+  </data>
+  <data name="MainMenuGMap" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="MainMenuGraphics" xml:space="preserve">
+    <value>Graphics</value>
+  </data>
+  <data name="MainMenuMap" xml:space="preserve">
+    <value>Topology</value>
+  </data>
+  <data name="MainMenuMonitoring" xml:space="preserve">
+    <value>Monitoring</value>
+  </data>
+  <data name="MainMenuSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="MainMenuSettings" xml:space="preserve">
+    <value>MainMenuSettings</value>
+  </data>
+  <data name="ManualAdding" xml:space="preserve">
+    <value>Manual adding</value>
+  </data>
+  <data name="MapProvider" xml:space="preserve">
+    <value>Map provider</value>
+  </data>
+  <data name="MapSettings" xml:space="preserve">
+    <value>Map settings</value>
+  </data>
+  <data name="Markers" xml:space="preserve">
+    <value>Markers</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>m.</value>
+  </data>
+  <data name="Monitoring" xml:space="preserve">
+    <value>Monitoring</value>
+  </data>
+  <data name="MonitoringConfiguration" xml:space="preserve">
+    <value>Monitoring configuration</value>
+  </data>
+  <data name="MonitoringDevicesIsEmpty" xml:space="preserve">
+    <value>The list of devices is empty</value>
+  </data>
+  <data name="MonitoringSettings" xml:space="preserve">
+    <value>Monitoring settings</value>
+  </data>
+  <data name="N" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameCompany" xml:space="preserve">
+    <value>Fort Telecom LLC</value>
+  </data>
+  <data name="NetworkMask" xml:space="preserve">
+    <value>Network Mask</value>
+  </data>
+  <data name="NetworkMaskValidationError" xml:space="preserve">
+    <value>Invalid network mask format</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>You are not authorized</value>
+  </data>
+  <data name="Notification" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="NotificationSound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Sounds\NotificationSound.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>OFFLINE</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>ONLINE</value>
+  </data>
+  <data name="OnMap" xml:space="preserve">
+    <value>On map</value>
+  </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Open web interface</value>
+  </data>
+  <data name="Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Poe" xml:space="preserve">
+    <value>PoE</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="PreparingToUpload" xml:space="preserve">
+    <value>Preparing to upload</value>
+  </data>
+  <data name="psw_disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Views\Images\psw_disabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="psw_enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Views\Images\psw_enabled.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RebootDevice" xml:space="preserve">
+    <value>Reboot device</value>
+  </data>
+  <data name="RebootDeviceConfirmation" xml:space="preserve">
+    <value>Reboot device?</value>
+  </data>
+  <data name="RebootSuccessful" xml:space="preserve">
+    <value>Reboot successful</value>
+  </data>
+  <data name="ReceiversList" xml:space="preserve">
+    <value>Email's to send</value>
+  </data>
+  <data name="RecipientAddress" xml:space="preserve">
+    <value>Recipient address</value>
+  </data>
+  <data name="ResetSettings" xml:space="preserve">
+    <value>Reset settings</value>
+  </data>
+  <data name="ResetSuccessful" xml:space="preserve">
+    <value>Reset successful</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchDevices" xml:space="preserve">
+    <value>Search for devices</value>
+  </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings</value>
+  </data>
+  <data name="SearchTimeout" xml:space="preserve">
+    <value>Search timeout</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="SelectBackground" xml:space="preserve">
+    <value>Select background</value>
+  </data>
+  <data name="SelectedFile" xml:space="preserve">
+    <value>Selected file</value>
+  </data>
+  <data name="SelectModel" xml:space="preserve">
+    <value>Select model</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="SendEmailIfAvilabilityChanged" xml:space="preserve">
+    <value>Send notification if avilability changed</value>
+  </data>
+  <data name="SenderAddress" xml:space="preserve">
+    <value>Sender address</value>
+  </data>
+  <data name="SendIpAddressToGetSensorList" xml:space="preserve">
+    <value>To get a list of sensors, send the device's IP address</value>
+  </data>
+  <data name="SendTestNotification" xml:space="preserve">
+    <value>Send test notification</value>
+  </data>
+  <data name="SendTestNotificationClicked" xml:space="preserve">
+    <value>The button to send a test notification is clicked</value>
+  </data>
+  <data name="Sensor" xml:space="preserve">
+    <value>Sensor</value>
+  </data>
+  <data name="SensorErrorExceptionValue" xml:space="preserve">
+    <value>Sensor error exception value</value>
+  </data>
+  <data name="SensorNameHostStatus" xml:space="preserve">
+    <value>Host status</value>
+  </data>
+  <data name="SensorReadPeriod" xml:space="preserve">
+    <value>Sensor's read period</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial number</value>
+  </data>
+  <data name="ServerIpAddress" xml:space="preserve">
+    <value>Server IP address</value>
+  </data>
+  <data name="SettingsConfirmed" xml:space="preserve">
+    <value>Settings applied</value>
+  </data>
+  <data name="SettingsSetConfirmation" xml:space="preserve">
+    <value>Confirm settings?</value>
+  </data>
+  <data name="SettingsSetSuccessful" xml:space="preserve">
+    <value>Settings applied</value>
+  </data>
+  <data name="ShouldRestartAppMessage" xml:space="preserve">
+    <value>You need to restart the application.</value>
+  </data>
+  <data name="SiteUrl" xml:space="preserve">
+    <value>https://tfortis.com</value>
+  </data>
+  <data name="SMTPServer" xml:space="preserve">
+    <value>SMTP-server</value>
+  </data>
+  <data name="SNMPAwait" xml:space="preserve">
+    <value>SNMP response waiting time</value>
+  </data>
+  <data name="SNMPCommunity" xml:space="preserve">
+    <value>SNMP community</value>
+  </data>
+  <data name="SNTP" xml:space="preserve">
+    <value>SNTP</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="SslProtection" xml:space="preserve">
+    <value>SSL protection</value>
+  </data>
+  <data name="StartSearching" xml:space="preserve">
+    <value>Start searching</value>
+  </data>
+  <data name="StartTelegramSearching" xml:space="preserve">
+    <value>start searching for devices on the network</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="StatusError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="StatusInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="StatusOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="StatusProblem" xml:space="preserve">
+    <value>Problem</value>
+  </data>
+  <data name="StatusWarning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="TelCompany" xml:space="preserve">
+    <value>Phone number: +7 342 260 20 30</value>
+  </data>
+  <data name="TelegramSettings" xml:space="preserve">
+    <value>Telegram settings</value>
+  </data>
+  <data name="TelegramToken" xml:space="preserve">
+    <value>Telegram-bot token</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Application theme</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimeLeft" xml:space="preserve">
+    <value>Time left</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>Timezone</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>Updating</value>
+  </data>
+  <data name="UpdatingWait" xml:space="preserve">
+    <value>Software update, please wait</value>
+  </data>
+  <data name="UploadedSuccessful" xml:space="preserve">
+    <value>successfully uploaded</value>
+  </data>
+  <data name="UpTime" xml:space="preserve">
+    <value>Uptime</value>
+  </data>
+  <data name="UptimeCheckPeriod" xml:space="preserve">
+    <value>Uptime check period</value>
+  </data>
+  <data name="UseAuthentificating" xml:space="preserve">
+    <value>Use authentificating</value>
+  </data>
+  <data name="UserLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="UserPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="WindowedMode" xml:space="preserve">
+    <value>Windowed mode</value>
+  </data>
+  <data name="YourUniqueId" xml:space="preserve">
+    <value>Your unique id:</value>
+  </data>
+</root>
