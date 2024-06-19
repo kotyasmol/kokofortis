@@ -5784,11 +5784,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
+      "projectUniqueName": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
       "projectName": "TFortisDeviceManagerSetup",
-      "projectPath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
+      "projectPath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
       "packagesPath": "C:\\Users\\Пользователь\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManagerSetup\\obj\\",
+      "outputPath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManagerSetup\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

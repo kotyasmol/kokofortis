@@ -77,7 +77,8 @@ namespace TFortisDeviceManagerUninstaller.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/TFortisDeviceManagerUninstaller;component/views/languageselectorview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/TFortisDeviceManagerUninstaller;V1.0.0.0;component/views/languageselectorview.xa" +
+                    "ml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\LanguageSelectorView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

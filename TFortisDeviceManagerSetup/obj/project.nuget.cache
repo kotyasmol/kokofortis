@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IzBe3PvRtZM=",
+  "dgSpecHash": "gMj99Uvmkds=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
+  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManagerSetup\\TFortisDeviceManagerSetup.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Пользователь\\.nuget\\packages\\handycontrol.lang.ru\\3.4.0\\handycontrol.lang.ru.3.4.0.nupkg.sha512",
     "C:\\Users\\Пользователь\\.nuget\\packages\\handycontrols\\3.4.5\\handycontrols.3.4.5.nupkg.sha512",

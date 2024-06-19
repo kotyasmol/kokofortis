@@ -12037,11 +12037,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\Tests\\Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\Tests\\Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\Tests\\Tests.csproj",
+      "projectPath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\Tests\\Tests.csproj",
       "packagesPath": "C:\\Users\\Пользователь\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\Tests\\obj\\",
+      "outputPath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -12062,8 +12062,8 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManager\\TFortisDeviceManager.csproj": {
-              "projectPath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManager\\TFortisDeviceManager.csproj"
+            "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManager\\TFortisDeviceManager.csproj": {
+              "projectPath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManager\\TFortisDeviceManager.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PVk9BnW9vPo=",
+  "dgSpecHash": "zSx/QXhWLqY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManager\\TFortisDeviceManager.csproj",
+  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManager\\TFortisDeviceManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Пользователь\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Пользователь\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

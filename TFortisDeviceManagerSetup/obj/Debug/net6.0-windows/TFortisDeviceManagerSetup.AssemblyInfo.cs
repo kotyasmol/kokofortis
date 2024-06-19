@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TFortisDeviceManagerSetup")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7de34fb544727e032e49e85b380d0712b6bf16a4")]
 [assembly: System.Reflection.AssemblyProductAttribute("TFortisDeviceManagerSetup")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TFortisDeviceManagerSetup")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

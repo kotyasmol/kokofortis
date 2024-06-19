@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MBMXNaxDW0o=",
+  "dgSpecHash": "HYUTPh0Zfj0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\ft\\TFortisDeviceManager2-develop\\TFortisDeviceManager\\TFortisDeviceManagerUninstaller\\TFortisDeviceManagerUninstaller.csproj",
+  "projectFilePath": "C:\\Users\\Пользователь\\Desktop\\TFortisDeviceManager\\kokofortis\\TFortisDeviceManagerUninstaller\\TFortisDeviceManagerUninstaller.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Пользователь\\.nuget\\packages\\cake.powershell\\3.0.0\\cake.powershell.3.0.0.nupkg.sha512",
     "C:\\Users\\Пользователь\\.nuget\\packages\\handycontrol.lang.ru\\3.4.0\\handycontrol.lang.ru.3.4.0.nupkg.sha512",

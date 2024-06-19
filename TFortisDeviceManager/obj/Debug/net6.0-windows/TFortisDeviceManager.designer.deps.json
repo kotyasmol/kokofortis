@@ -292,21 +292,6 @@
           }
         }
       },
-      "LiveCharts.Wpf.NetCore3/0.9.8": {
-        "dependencies": {
-          "System.Data.DataSetExtensions": "4.5.0"
-        },
-        "runtime": {
-          "lib/net6.0-windows7.0/LiveCharts.Wpf.dll": {
-            "assemblyVersion": "0.9.8.0",
-            "fileVersion": "0.9.8.0"
-          },
-          "lib/net6.0-windows7.0/LiveCharts.dll": {
-            "assemblyVersion": "0.9.8.0",
-            "fileVersion": "0.9.8.0"
-          }
-        }
-      },
       "log4net/2.0.12": {
         "dependencies": {
           "System.Configuration.ConfigurationManager": "6.0.0"
@@ -3463,13 +3448,6 @@
       "sha512": "sha512-jMBdknuG3EOMKA0NaqqwMjhsZpRAzd0UqP0SlwXIBJ+ZoJg5TF9C4rDdKqInEs+RycYmIwmrZWvmfDxsM5MMJw==",
       "path": "livecharts.wpf.core/0.9.8",
       "hashPath": "livecharts.wpf.core.0.9.8.nupkg.sha512"
-    },
-    "LiveCharts.Wpf.NetCore3/0.9.8": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-EWwggMrRkWOdt/TdFhcs0LIXzpEuN392zGB+tLcO4UinKV13+V3NyhFoURPVP3GmQXjgrrlMDp+zyuSQeut53w==",
-      "path": "livecharts.wpf.netcore3/0.9.8",
-      "hashPath": "livecharts.wpf.netcore3.0.9.8.nupkg.sha512"
     },
     "log4net/2.0.12": {
       "type": "package",

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\TFortisDeviceManager\obj\Debug\net6.0-windows\
+C:\Users\Пользователь\Desktop\TFortisDeviceManager\kokofortis\TFortisDeviceManager\obj\Debug\net6.0-windows\
 TFortisDeviceManager
 none
 false
 TRACE;Core;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\Пользователь\Desktop\ft\TFortisDeviceManager2-develop\TFortisDeviceManager\TFortisDeviceManager\App.xaml
-241880141166
+C:\Users\Пользователь\Desktop\TFortisDeviceManager\kokofortis\TFortisDeviceManager\App.xaml
+241713499371
 
-130-1798748867
+130240931995
 2971141638248
-Properties\DesignTimeResources.xaml;Resources\Icons.xaml;Views\AuthenticationView.xaml;Views\GraphicsView.xaml;Views\RootView.xaml;Views\TabViews\GMapViews\GMapView.xaml;Views\TabViews\MapView.xaml;Views\TabViews\MonitoringViews\AddingToMonitoringView.xaml;Views\TabViews\MonitoringViews\DeviceTableSettingsView.xaml;Views\TabViews\MonitoringViews\EventsExportView.xaml;Views\TabViews\MonitoringViews\EventTableSettingsView.xaml;Views\TabViews\MonitoringViews\ManualAddingView.xaml;Views\TabViews\MonitoringViews\MonitoringFiltersView.xaml;Views\TabViews\MonitoringViews\MonitoringView.xaml;Views\TabViews\SearchViews\DeviceSettingsView.xaml;Views\TabViews\SearchViews\DfuUpdateView.xaml;Views\TabViews\SearchViews\SearchView.xaml;Views\TabViews\SearchViews\SntpSettingsView.xaml;Views\TabViews\SettingsViews\AboutView.xaml;Views\TabViews\SettingsViews\AlertSettingsView.xaml;Views\TabViews\SettingsViews\CommonSettingsView.xaml;Views\TabViews\SettingsViews\MapSettingsView.xaml;Views\TabViews\SettingsViews\MonitoringSettingsView.xaml;Views\TabViews\SettingsViews\SearchSettingsView.xaml;
+Properties\DesignTimeResources.xaml;Resources\Icons.xaml;Views\AuthenticationView.xaml;Views\RootView.xaml;Views\TabViews\DashBoardViews\GraphicsView.xaml;Views\TabViews\GMapViews\GMapView.xaml;Views\TabViews\MapView.xaml;Views\TabViews\MonitoringViews\AddingToMonitoringView.xaml;Views\TabViews\MonitoringViews\DeviceTableSettingsView.xaml;Views\TabViews\MonitoringViews\EventsExportView.xaml;Views\TabViews\MonitoringViews\EventTableSettingsView.xaml;Views\TabViews\MonitoringViews\ManualAddingView.xaml;Views\TabViews\MonitoringViews\MonitoringFiltersView.xaml;Views\TabViews\MonitoringViews\MonitoringView.xaml;Views\TabViews\SearchViews\DeviceSettingsView.xaml;Views\TabViews\SearchViews\DfuUpdateView.xaml;Views\TabViews\SearchViews\SearchView.xaml;Views\TabViews\SearchViews\SntpSettingsView.xaml;Views\TabViews\SettingsViews\AboutView.xaml;Views\TabViews\SettingsViews\AlertSettingsView.xaml;Views\TabViews\SettingsViews\CommonSettingsView.xaml;Views\TabViews\SettingsViews\MapSettingsView.xaml;Views\TabViews\SettingsViews\MonitoringSettingsView.xaml;Views\TabViews\SettingsViews\SearchSettingsView.xaml;
 
 False
 

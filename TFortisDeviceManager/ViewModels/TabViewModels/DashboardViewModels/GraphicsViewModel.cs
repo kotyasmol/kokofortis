@@ -41,6 +41,17 @@ namespace TFortisDeviceManager.ViewModels
                 OnPropertyChanged(nameof(LineSeriesCollection));
             }
         }
+        private double _temperature;
+        public double Temperature
+        {
+            get { return _temperature; }
+            set
+            {
+                _temperature = value;
+                OnPropertyChanged(nameof(Temperature));
+            }
+        }
+
 
         public GraphicsViewModel()
         {
@@ -120,6 +131,7 @@ namespace TFortisDeviceManager.ViewModels
 
                 UpdatePieChart();
                 UpdateLineChart();
+                UpdateTemperature();
             }
         }
 
@@ -246,6 +258,11 @@ namespace TFortisDeviceManager.ViewModels
             }
             Labels = Enumerable.Range(0, _maxPoints).Select(i => (i + 1).ToString()).ToList();
         }
+        private void UpdateTemperature()
+        {
+            Temperature = _random.Next(-60, 101);
+        }
+
 
         protected void OnPropertyChanged(string name)
         {
