@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © Fort Telecom 2023")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+7de34fb544727e032e49e85b380d0712b6bf16a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+722471bc5e47289cabe1b8c9f930deeb3903e3bb")]
 [assembly: System.Reflection.AssemblyProductAttribute("TFortisDeviceManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TFortisDeviceManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
