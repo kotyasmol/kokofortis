@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TFortisDeviceManager.Database.EntityDataModel;
 
 namespace TFortisDeviceManager;
 
@@ -22,6 +23,10 @@ public partial class TfortisdbContext : DbContext
     public virtual DbSet<Event> Events { get; set; }
 
     public virtual DbSet<OidsForDevice> OidsForDevices { get; set; }
+
+    public virtual DbSet<OidsForDashboard> OidsForDashboard { get; set; }
+
+    public virtual DbSet<DashboardPoints> DashboardPoints { get; set; }
 
     public virtual DbSet<TrapOid> TrapOids { get; set; }
 
@@ -47,6 +52,7 @@ public partial class TfortisdbContext : DbContext
             entity.Property(e => e.SendEmail).HasColumnName("sendEmail");
             entity.Property(e => e.Timeout).HasColumnName("timeout");
             entity.Property(e => e.DeviceIp).HasColumnName("deviceip");
+
 
         });
 
@@ -133,9 +139,45 @@ public partial class TfortisdbContext : DbContext
             entity.Property(e => e.OkValue).HasColumnName("okValue");
             entity.Property(e => e.OkValueText).HasColumnName("okValueText");
         });
+        // ghjghg
+        modelBuilder.Entity<OidsForDashboard>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("OidsForDashboard");
+
+            entity.Property(e => e.Address).HasColumnName("address");
+            entity.Property(e => e.BadValue).HasColumnName("badValue");
+            entity.Property(e => e.BadValueText).HasColumnName("badValueText");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.DeviceTypeId).HasColumnName("deviceTypeId");
+            entity.Property(e => e.Enable).HasColumnName("enable");
+            entity.Property(e => e.Invertible).HasColumnName("invertible");
+            entity.Property(e => e.Key).HasColumnName("key");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.OkValue).HasColumnName("okValue");
+            entity.Property(e => e.OkValueText).HasColumnName("okValueText");
+            entity.Property(e => e.Timeout).HasColumnName("timeout");
+        });
+
+        modelBuilder.Entity<DashboardPoints>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("Events_pkey");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.DeviceName).HasColumnName("deviceName");
+            entity.Property(e => e.Ip).HasColumnName("ip");
+            entity.Property(e => e.SensorName).HasColumnName("sensorName");
+            entity.Property(e => e.SensorValueText).HasColumnName("sensorValueText");
+            entity.Property(e => e.Time).HasColumnName("time");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }
+    // прпррп
+
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

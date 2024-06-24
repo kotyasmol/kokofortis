@@ -22,6 +22,7 @@ public partial class TfortisdbContext : DbContext
 
     public virtual DbSet<OidsForDevice> OidsForDevices { get; set; }
 
+
     public virtual DbSet<TrapOid> TrapOids { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

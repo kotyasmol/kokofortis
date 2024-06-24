@@ -1,17 +1,38 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using DocumentFormat.OpenXml.Office2021.DocumentTasks;
+using Lextm.SharpSnmpLib.Messaging;
+using Lextm.SharpSnmpLib;
 using LiveCharts;
+using LiveCharts.Definitions.Series;
 using LiveCharts.Wpf;
 using Stylet;
+using TFortisDeviceManager.Database;
 using TFortisDeviceManager.Models;
+using TFortisDeviceManager.Services;
+using System.Net;
+using TFortisDeviceManager.Properties;
+using Variable = Lextm.SharpSnmpLib.Variable;
+using Serilog;
+using Task = System.Threading.Tasks.Task;
+using TFortisDeviceManager.Models.Devices;
 
 namespace TFortisDeviceManager.ViewModels
 {
-    public sealed class GraphicsViewModel : Screen, INotifyPropertyChanged
+    public class DeviceEventArgs : EventArgs
+    {
+        public MonitoringDevice Device { get; set; }
+    }
+    public sealed class GraphicsViewModel : Screen, INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Random _random = new Random();
@@ -19,6 +40,8 @@ namespace TFortisDeviceManager.ViewModels
         private readonly Dictionary<string, Queue<double>> _lineDataDict;
         private readonly int _maxQueueSize = 10;
         private readonly int _maxPoints = 50;
+        //public static ObservableCollection<MonitoringDevice> MonitoringDevices { get; } = new ObservableCollection<MonitoringDevice>();
+        
 
         private SeriesCollection _seriesCollection;
         public SeriesCollection SeriesCollection
@@ -30,7 +53,6 @@ namespace TFortisDeviceManager.ViewModels
                 OnPropertyChanged(nameof(SeriesCollection));
             }
         }
-
         private SeriesCollection _lineSeriesCollection;
         public SeriesCollection LineSeriesCollection
         {
@@ -51,15 +73,13 @@ namespace TFortisDeviceManager.ViewModels
                 OnPropertyChanged(nameof(Temperature));
             }
         }
-
-
         public GraphicsViewModel()
         {
             _lineDataDict = new Dictionary<string, Queue<double>>
             {
                 { "Series1", new Queue<double>(Enumerable.Repeat(0.0, _maxPoints)) }
             };
-
+            _monitoringDevices = new ObservableCollection<MonitoringDevice>();
             SeriesCollection = new SeriesCollection();
             LineSeriesCollection = new SeriesCollection();
             Labels = Enumerable.Range(0, _maxPoints).Select(i => i.ToString()).ToList();
@@ -238,7 +258,6 @@ namespace TFortisDeviceManager.ViewModels
                 index++;
             }
         }
-
         private void UpdateLineChart()
         {
             int index = 0;
@@ -263,10 +282,406 @@ namespace TFortisDeviceManager.ViewModels
             Temperature = _random.Next(-60, 101);
         }
 
+        public event EventHandler<DeviceEventArgs> DeviceAdded;
+        public void AddDevice(MonitoringDevice device)
+        {
+            DeviceAdded?.Invoke(this, new DeviceEventArgs { Device = device });
+        }
 
+        // НЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
+
+
+
+        private readonly IUserSettings _userSettings; 
+        private readonly INotificationService _notificationService;
+
+        private readonly string statusOk = Resources.StatusOk;
+        private readonly string statusProblem = Resources.StatusProblem;
+        private readonly string statusError = Resources.StatusError;
+        private readonly string statusInfo = Resources.StatusInfo;
+        private readonly string sensorErrorExceptionValue = Resources.SensorErrorExceptionValue;
+
+        private readonly string sensorNameHostStatus = Resources.SensorNameHostStatus;
+        private readonly string hostStatusEnabled = Resources.HostStatusEnabled;
+        private readonly string hostStatusDisabled = Resources.HostStatusDisabled;
+        private readonly string hostStatusReloaded = Resources.HostStatusReloaded;
+
+        private BlockingCollection<EventModel>? queueEvents;
+        private CancellationTokenSource? ctsForProducer;
+        private CancellationTokenSource? ctsForConsumer;
+        private ConcurrentBag<Task>? tasks;
+        private SnmpTrapDaemon? snmpTrapD;
+        private Task? taskConsumer;
+
+     
+        private ObservableCollection<MonitoringDevice> _monitoringDevices;
+        public ObservableCollection<MonitoringDevice> MonitoringDevices
+        {
+            get { return _monitoringDevices; }
+            set
+            {
+                _monitoringDevices = value;
+                OnPropertyChanged(nameof(MonitoringDevices));
+            }
+        } 
+
+
+
+        private double GetUptime(string ip, string community) // норм штучка, пригодится потом 
+        {
+            int timeoutWaitingForResponseSnmp = _userSettings.MonitoringSettings.TimeoutWaitingForResponseSnmp;
+            var results = Messenger.Get(VersionCode.V1,
+                                        new IPEndPoint(IPAddress.Parse(ip), 161),
+                                        new OctetString(community),
+                                        new List<Variable> { new Variable(new ObjectIdentifier("1.3.6.1.2.1.1.3.0")) },
+                                        timeoutWaitingForResponseSnmp);
+
+            var variable = results.First();
+            double seconds = TimeSpan.Parse(variable.Data.ToString(), CultureInfo.InvariantCulture).TotalSeconds;
+            return seconds;
+        }
+        private double GetBatteryTime(string ip, string community)
+        {
+            int timeoutWaitingForResponseSnmp = _userSettings.MonitoringSettings.TimeoutWaitingForResponseSnmp;
+            var results = Messenger.Get(VersionCode.V1,
+                                        new IPEndPoint(IPAddress.Parse(ip), 161),
+                                        new OctetString(community),
+                                        new List<Variable> { new Variable(new ObjectIdentifier("1.3.6.1.4.1.42019.3.2.2.1.4.0")) },
+                                        timeoutWaitingForResponseSnmp);
+
+            var variable = results.First();
+            double seconds = Convert.ToDouble(variable.Data.ToString(), CultureInfo.InvariantCulture);
+            return seconds;
+        }
+
+
+   
+        public void StartMonitoring()
+        {
+            MonitoringEvents.Clear();
+            Task.Run(() => Run());
+            Log.Information("Мониторинг запущен");
+        }
+
+
+        public async Task Run()
+        {
+            bool trapEnable = _userSettings.MonitoringSettings.EnableRecieveTrap;
+            queueEvents = new BlockingCollection<EventModel>(10000);
+            ctsForProducer = new CancellationTokenSource();
+            ctsForConsumer = new CancellationTokenSource();
+
+            ctsForProducer.Token.Register(() => Console.WriteLine("ctsForProducer cancelled"));
+            ctsForConsumer.Token.Register(() => Console.WriteLine("ctsForConsumer cancelled"));
+
+            tasks = new ConcurrentBag<Task>();
+
+            // Здесь только одно устройство для мониторинга
+            var selectedDevice = MonitoringDevices.FirstOrDefault(); // поменять с привязкой типа выбрано из таблички ???
+
+            if (selectedDevice != null)
+            {
+                tasks.Add(CheckUptimeLoopAsync(selectedDevice, ctsForProducer.Token));
+            }
+
+            if (trapEnable)
+            {
+                snmpTrapD = new SnmpTrapDaemon(queueEvents, ctsForConsumer.Token);
+                snmpTrapD.Start();
+            }
+
+            await Task.WhenAll(tasks);
+            ctsForProducer.Dispose();
+            ctsForConsumer.Dispose();
+        }
+
+        private async Task CheckUptimeLoopAsync(MonitoringDevice device, CancellationToken token)
+        {
+            int uptimeValue;
+            int uptimePrevious;
+            int timeoutCount = 0;
+
+            string descriptionDeviceNotAvilable = Resources.DescriptionDeviceNotAvilable;
+            string descriptionHostReloaded = Resources.DescriptionHostReloaded;
+
+            bool sensorsGetRun = false;
+
+            var sensors = PGDataAccess.LoadOidsForMonitroing(device.IpAddress); // Потом поменять когда тема сделает
+            var community = PGDataAccess.GetCommunity(device.IpAddress);
+
+            while (true)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    Console.WriteLine("CheckUptimeLoopAsync canceled.");
+                    queueEvents.CompleteAdding();
+                    queueEvents.Dispose();
+                    break;
+                }
+
+                int timeout = _userSettings.MonitoringSettings.TimeoutCheckUptime;
+                EventModel? evnt = null;
+
+                uptimePrevious = PGDataAccess.GetUptime(device);
+
+                try
+                {
+                    uptimeValue = (int)GetUptime(device.IpAddress, community);
+                    device.Available = true;
+
+                    if (uptimeValue < uptimePrevious)
+                    {
+                        evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus,
+                                            hostStatusReloaded, descriptionHostReloaded, statusInfo);
+                    }
+                    else
+                    {
+                        TimeSpan span = TimeSpan.FromSeconds(uptimeValue);
+                        string uptime = FormatUptime(span);
+
+                        string description = $"{Properties.Resources.ContinuousOperationTime} {uptime}";
+
+                        evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus,
+                            hostStatusEnabled, description, statusOk);
+                    }
+
+                    device.Uptime = uptimeValue;
+
+                    if (!sensorsGetRun)
+                    {
+                        await RunReadSensorsAsync(sensors, device, token);
+                        Log.Information($"Опрос сенсоров для {device.IpAddress} был запущен");
+
+                        sensorsGetRun = true;
+                    }
+                    timeoutCount = 0;
+                }
+                catch (Lextm.SharpSnmpLib.Messaging.TimeoutException)
+                {
+                    HandleTimeoutException(ref timeoutCount, device, ref evnt, sensorNameHostStatus, descriptionDeviceNotAvilable);
+                }
+                catch (ErrorException ex)
+                {
+                    HandleErrorException(ex, device, ref evnt, sensorNameHostStatus);
+                }
+                catch (SnmpException)
+                {
+                    HandleSnmpException(ref timeoutCount, device, ref evnt, sensorNameHostStatus);
+                }
+
+                if (evnt != null)
+                    queueEvents.TryAdd(evnt, 2, token);
+
+                await Task.Delay(TimeSpan.FromSeconds(timeout), token).ConfigureAwait(false);
+            }
+        }
+
+        private async Task RunReadSensorsAsync(List<Sensor> sensors, MonitoringDevice device, CancellationToken token)
+        {
+            int delayBetweenTaskReadSensorValueLoop = _userSettings.MonitoringSettings.DelayBetweenTaskReadSensorValueLoop;
+
+            foreach (var sensor in sensors)
+            {
+                if (sensor.Enable)
+                {
+                    tasks.Add(ReadSensorValueLoop(sensor, device, token));
+                }
+
+                await Task.Delay(delayBetweenTaskReadSensorValueLoop, token).ConfigureAwait(false);
+            }
+        }
+
+        private int GetSensorValue(Sensor sensor, string community)
+        {
+            int timeoutWaitingForResponseSnmp = _userSettings.MonitoringSettings.TimeoutWaitingForResponseSnmp;
+            var results = Messenger.Get(VersionCode.V1,
+                                        new IPEndPoint(IPAddress.Parse(sensor.Ip!), 161),
+                                        new OctetString(community),
+                                        new List<Variable> { new Variable(new ObjectIdentifier(sensor.Address!)) },
+                                        timeoutWaitingForResponseSnmp);
+
+            var variable = results.First();
+            int sensorValueResult = int.Parse(variable.Data.ToString(), CultureInfo.InvariantCulture);
+            return sensorValueResult;
+        }
+
+        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token) // будут другие сенсоры надо будет обр по другому
+        {
+            int timeout = sensor.Timeout;
+            string sensorValueText = "";
+
+            var community = PGDataAccess.GetCommunity(device.IpAddress);
+
+            while (sensor.Enable)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    Console.WriteLine("ReadSensorValueLoop canceled.");
+                    break;
+                }
+
+                if (!device.Available)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(timeout), token).ConfigureAwait(false);
+                    continue;
+                }
+
+                EventModel? evnt = null;
+
+                try
+                {
+                    string? description;
+                    int sensorValue = GetSensorValue(sensor, community);
+                    string status = DetermineSensorStatus(sensor, sensorValue, ref sensorValueText);
+
+                    if (sensor.Name == "upsPwrSource" && sensorValue == sensor.BadValue)
+                    {
+                        description = GetUpsPowerSourceDescription(sensor, community);
+                    }
+                    else
+                    {
+                        description = sensor.Description;
+                    }
+
+                    evnt = CreateEvent(sensor.DeviceName, sensor.Ip, device.Description, device.Location, sensor.Name, sensorValueText, description, status);
+                }
+                catch (Lextm.SharpSnmpLib.Messaging.TimeoutException) { }
+                catch (ErrorException ex)
+                {
+                    evnt = CreateEvent(sensor.DeviceName, sensor.Ip, device.Description, device.Location, sensor.Name, sensorErrorExceptionValue, ex.Message, statusError);
+                }
+                catch (SnmpException) { }
+
+                if (evnt != null)
+                    queueEvents.TryAdd(evnt, 2, token);
+
+                await Task.Delay(timeout * 1000, token).ConfigureAwait(false);
+            }
+        }
+
+
+        private string FormatUptime(TimeSpan span)
+        {
+            string uptime = $"{span.Days}{Resources.Day} {span.Hours}{Resources.Minute} {span.Minutes}{Resources.Minute}";
+
+            if (span.Days == 0)
+                uptime = $"{span.Hours}{Resources.Hour} {span.Minutes}{Resources.Minute}";
+
+            if (span.Days == 0 && span.Hours == 0)
+                uptime = $"{span.Minutes}{Resources.Minute}";
+
+            return uptime;
+        }
+
+        private void HandleTimeoutException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus, string descriptionDeviceNotAvilable)
+        {
+            timeoutCount++;
+            if (timeoutCount == 5)
+            {
+                device.Available = false;
+                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, descriptionDeviceNotAvilable, statusProblem);
+                timeoutCount = 0;
+            }
+        }
+
+        private void HandleErrorException(ErrorException ex, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        {
+            evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, sensorErrorExceptionValue, ex.Message, statusError);
+        }
+
+        private void HandleSnmpException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        {
+            timeoutCount++;
+            if (timeoutCount == 5)
+            {
+                device.Available = false;
+                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, "SNMP Error", statusProblem);
+                timeoutCount = 0;
+            }
+        }
+
+        private string DetermineSensorStatus(Sensor sensor, int sensorValue, ref string sensorValueText)
+        {
+            string status = statusOk;
+
+            if (sensor.Name == "temperature" || sensor.Name == "humidity")
+            {
+                sensorValueText = sensorValue.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                if (sensorValue == sensor.OkValue)
+                {
+                    if (sensor.Invert)
+                    {
+                        status = statusProblem;
+                    }
+                    sensorValueText = sensor.OkValueText!;
+                }
+                else if (sensorValue == sensor.BadValue)
+                {
+                    if (sensor.Invert)
+                    {
+                        status = statusOk;
+                    }
+                    else
+                    {
+                        status = statusProblem;
+                    }
+                    sensorValueText = sensor.BadValueText!;
+                }
+            }
+
+            return status;
+        }
+
+        private string GetUpsPowerSourceDescription(Sensor sensor, string community)
+        {
+            double seconds = GetBatteryTime(sensor.Ip!, community);
+            TimeSpan timeLeft = TimeSpan.FromSeconds(seconds);
+            return $"{Resources.TimeLeft} {timeLeft.Hours}h.{timeLeft.Minutes}m";
+        }
+
+        public void Dispose()
+        {
+            ctsForProducer?.Cancel();
+            ctsForConsumer?.Cancel();
+            ctsForProducer?.Dispose();
+            ctsForConsumer?.Dispose();
+        }
+
+
+        // НЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
+
+        public static ObservableCollection<EventModel> MonitoringEvents { get; } = new ObservableCollection<EventModel>();
+        
+        public static EventModel CreateEvent(string deviceName, string ip, string deviceDescription, string deviceLocation, string sensorName, string sensorValueText, string description, string status)
+        {
+            return new EventModel()
+            {
+                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture),
+                DeviceName = deviceName,
+                Ip = ip,
+                SensorName = sensorName,
+                Description = description,
+                SensorValueText = sensorValueText,
+                Status = status,
+                DeviceDescription = deviceDescription,
+                DeviceLocation = deviceLocation
+            };
+        }
+
+
+
+        /// <summary>
+        /// jujuujdjd
+        /// </summary>
+        /// <param name="name"></param>
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
+
+

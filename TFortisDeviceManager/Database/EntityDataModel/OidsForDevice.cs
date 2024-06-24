@@ -29,6 +29,7 @@ public partial class OidsForDevice
 
     public int Enable { get; set; }
 
+
     public OidModel ToOidModel()
     {
         OidModel model = new()

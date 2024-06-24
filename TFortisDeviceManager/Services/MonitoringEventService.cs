@@ -15,6 +15,7 @@ using Variable = Lextm.SharpSnmpLib.Variable;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using Serilog;
+using TFortisDeviceManager.Models.Devices;
 
 namespace TFortisDeviceManager.Services
 {
@@ -121,13 +122,13 @@ namespace TFortisDeviceManager.Services
 
             tasks = new ConcurrentBag<Task>();
 
-            List<MonitoringDevice> devicesForMonitoring = PGDataAccess.GetDevicesForMonitoring();
+            List<MonitoringDevice> devicesForMonitoring = PGDataAccess.GetDevicesForMonitoring(); // мониторинг нужен
          
             taskConsumer = AddInDBFromQueueEventsAsync(ctsForConsumer.Token);
 
             for (int n = 0; n < devicesForMonitoring.Count; n++)
             {
-                tasks.Add(CheckUptimeLoopAsync(devicesForMonitoring[n], ctsForProducer.Token));
+                tasks.Add(CheckUptimeLoopAsync(devicesForMonitoring[n], ctsForProducer.Token)); // цикл убрать, надо чтобы конкретное только одно
             }
 
             if (trapEnable)
@@ -153,7 +154,7 @@ namespace TFortisDeviceManager.Services
 
             bool sensorsGetRun = false;
 
-            var sensors = PGDataAccess.LoadOidsForMonitroing(device.IpAddress); 
+            var sensors = PGDataAccess.LoadOidsForMonitroing(device.IpAddress); // потом надо будет потрогать 
             var community = PGDataAccess.GetCommunity(device.IpAddress);
 
             while (true)
@@ -266,7 +267,7 @@ namespace TFortisDeviceManager.Services
             }
         }
 
-        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token)
+        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token) // вся суета тут кончается
         {
             int timeout = sensor.Timeout;
             string sensorValueText = "";
@@ -308,7 +309,7 @@ namespace TFortisDeviceManager.Services
                         {
                             if (sensorValue == sensor.OkValue)
                             {
-                                if (sensor.Invert)
+                                if (sensor.Invert) /// ДАТЧИК ПЕРЕВОРОТА МОЖНО ПОИСКАТЬ ДЛЯ ВСКРЫТИЯ И ТУДА ИНВЕРТ :3
                                 {
                                     status = statusProblem;
                                 }
@@ -411,7 +412,7 @@ namespace TFortisDeviceManager.Services
             MonitoringDevices.Add(device);
         }
 
-        private async Task ProcessEvent(EventModel evnt)
+        private async Task ProcessEvent(EventModel evnt) 
         {
             if (evnt.SensorName == sensorNameHostStatus)                                                
             {
@@ -646,7 +647,11 @@ namespace TFortisDeviceManager.Services
 
             PGDataAccess.UpdateEventAge(eventFromDb, description);
         }
+        /// FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
+
+
+        // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
         public void ClearEvents()
         {
             MonitoringEvents.Clear();

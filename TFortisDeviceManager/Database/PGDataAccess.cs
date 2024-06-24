@@ -6,6 +6,8 @@ using TFortisDeviceManager.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
 using System.Globalization;
+using TFortisDeviceManager.Database.EntityDataModel;
+using TFortisDeviceManager.Models.Devices;
 
 namespace TFortisDeviceManager.Database
 {
@@ -202,7 +204,7 @@ namespace TFortisDeviceManager.Database
             return hostStatus ?? "";
         }
 
-        public static List<MonitoringDevice> GetDevicesForMonitoring()
+        public static List<MonitoringDevice> GetDevicesForMonitoring() // Эта не работает
         { 
             using TfortisdbContext database = new();
             var devices = from dev in database.DeviceForMonitoring
@@ -241,7 +243,51 @@ namespace TFortisDeviceManager.Database
 
             return Devices;
         }
-                
+
+      /*  public static List<DashboardDevice> GetDevicesForDashboard()
+        {
+            using DashboardDbContext database = new();
+            var devices = from dev in database.DashboardDevices
+                          select new
+                          {
+                              dev.Id,
+                              dev.Name,
+                              dev.IpAddress,
+                              dev.Location,
+                              dev.Description,
+                              dev.Firmware,
+                              dev.Uptime,
+                              dev.Voltage,
+                              dev.PortsQuantity,
+                              dev.SumPoe,
+                              dev.CpuUsage,
+                              dev.Temperature,
+                              dev.Humidity,
+                              //dev.PowerSupply
+                          };
+
+            List<DashboardDevice> Devices = new();
+            Devices.Clear();
+            foreach (var d in devices)
+            {
+                DashboardDevice device = new(d.Id, d.Name, d.IpAddress, d.Location, d.Description, d.Firmware, d.Uptime)
+                {
+                    Voltage = d.Voltage,
+                    PortsQuantity = d.PortsQuantity,
+                    SumPoe = d.SumPoe,
+                    CpuUsage = d.CpuUsage,
+                    Temperature = d.Temperature,
+                    Humidity = d.Humidity,
+                    TemperatureHumidity = d.Temperature > 0 || d.Humidity > 0 // 
+                };
+
+                Devices.Add(device);
+            }
+
+            return Devices;
+        }*/
+
+
         public static void AddDeviceForMonitoring(MonitoringDevice device, string community, int sendEmail)
         {
             using TfortisdbContext database = new();
@@ -509,6 +555,8 @@ namespace TFortisDeviceManager.Database
                     DeviceName = deviceType.Name,
                 }).Where(t => t.DeviceIp == deviceIP);
 
+
+
             foreach (var oid in result)
             {
                 Sensor sensor = new()
@@ -536,7 +584,7 @@ namespace TFortisDeviceManager.Database
             return Sensors;
         }      
         
-        public static List<OidsForDevice> GetOidsForMonitoring(string deviceIP)
+        public static List<OidsForDevice> GetOidsForMonitoring(string deviceIP) // вот про это говорил тема
         {
             using TfortisdbContext database = new();
            
@@ -589,6 +637,8 @@ namespace TFortisDeviceManager.Database
                         return result;
         }
 
+
+        // не трогал больше
         public static void ClearDeviceAndOids()
         {
            // 

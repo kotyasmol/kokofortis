@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using TFortisDeviceManager;
 
 namespace Tests;
 
@@ -24,7 +25,6 @@ public partial class TfortisdbtestContext : DbContext
     public virtual DbSet<Event> Events { get; set; }
 
     public virtual DbSet<OidsForDevice> OidsForDevices { get; set; }
-
     public virtual DbSet<TrapOid> TrapOids { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

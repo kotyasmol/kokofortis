@@ -7,7 +7,7 @@ using System.Text;
 
 namespace TFortisDeviceManager.Models
 {
-    public sealed class MonitoringDevice : IEquatable<NetworkDevice>, INotifyPropertyChanged
+    public class MonitoringDevice : IEquatable<NetworkDevice>, INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -88,7 +88,16 @@ namespace TFortisDeviceManager.Models
             Location = location;
             Description = description;
         }
-
+        public MonitoringDevice(int id, string name, string ip, string? location, string? description, string firmware, int uptime) // добавила для 7 параметров
+        {
+            Name = name;
+            IpAddress = ip;
+            Id = id;
+            Firmware = firmware;
+            Location = location;
+            Description = description;
+            Uptime = uptime;
+        }
         public NetworkDevice ToNetworkDevice()
         {
             NetworkDevice device = new()
