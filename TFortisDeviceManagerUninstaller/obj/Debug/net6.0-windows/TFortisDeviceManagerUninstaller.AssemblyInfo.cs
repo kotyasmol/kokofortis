@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TFortisDeviceManagerUninstaller")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7de34fb544727e032e49e85b380d0712b6bf16a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd8fae0c93034d7a8cfb9c6a018a0a42adc480ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("TFortisDeviceManagerUninstaller")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TFortisDeviceManagerUninstaller")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

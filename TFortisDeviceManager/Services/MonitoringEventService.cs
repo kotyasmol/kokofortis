@@ -24,6 +24,8 @@ namespace TFortisDeviceManager.Services
         Task Run();
         public event NotifyCollectionChangedEventHandler? SignalIfDeviceAdded;
         public event NotifyCollectionChangedEventHandler? SignalIfDeviceDeleted;
+        public static event EventHandler<DeviceAddedEventArgs>? DeviceAddedForDashboard; // СНОВА ПОТРОГАЛ
+
 
         public void StartMonitoring();
         public void StartMonitoringRefreshMap(string deviceIp);
@@ -66,6 +68,7 @@ namespace TFortisDeviceManager.Services
 
         public event NotifyCollectionChangedEventHandler? SignalIfDeviceAdded;
         public event NotifyCollectionChangedEventHandler? SignalIfDeviceDeleted;
+        public static  event EventHandler<DeviceAddedEventArgs>? DeviceAddedForDashboard; // СНОВА ПОТРОГАЛ
 
         Task? taskConsumer;
         public static ObservableCollection<EventModel> MonitoringEvents { get; } = new ObservableCollection<EventModel>();
@@ -407,10 +410,13 @@ namespace TFortisDeviceManager.Services
             }
         }
 
-        public void AddToDevicesTable(MonitoringDevice device)
+        public void AddToDevicesTable(MonitoringDevice device) 
         {
             MonitoringDevices.Add(device);
+            DeviceAddedForDashboard?.Invoke(this, new DeviceAddedEventArgs(device));
+
         }
+
 
         private async Task ProcessEvent(EventModel evnt) 
         {
@@ -651,6 +657,7 @@ namespace TFortisDeviceManager.Services
 
 
 
+
         // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
         public void ClearEvents()
         {
@@ -677,10 +684,11 @@ namespace TFortisDeviceManager.Services
             }
 
         }
-
         public void Dispose()
         {
             //
         }
+
     }
+    // снова трогал
 }

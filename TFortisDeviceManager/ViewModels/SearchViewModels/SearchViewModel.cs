@@ -5,10 +5,12 @@ using Stylet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -838,7 +840,35 @@ namespace TFortisDeviceManager.ViewModels
             }
             base.OnPropertyChanged(propertyName);
         }
+        // ТРОГАЛ
+        /*private readonly MonitoringEventService _eventService;
 
+        public ObservableCollection<MonitoringDevice> Devices { get; set; }
+
+        public SearchViewModel(MonitoringEventService eventService)
+        {
+            _eventService = eventService;
+            Devices = new ObservableCollection<MonitoringDevice>();
+        }
+
+        private MonitoringDevice _selectedDeviceDash;
+        public MonitoringDevice SelectedDeviceDash
+        {
+            get { return _selectedDeviceDash; }
+            set
+            {
+                _selectedDeviceDash = value;
+                OnPropertyChangedDash();
+                _eventService.AddDevice(_selectedDeviceDash);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChangedDash([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }*/
+        // НЕ ТРОГАЛ
         public void Dispose()
         {
             //

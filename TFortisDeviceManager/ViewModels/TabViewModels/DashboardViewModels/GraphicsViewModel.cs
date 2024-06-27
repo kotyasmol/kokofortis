@@ -25,6 +25,7 @@ using Variable = Lextm.SharpSnmpLib.Variable;
 using Serilog;
 using Task = System.Threading.Tasks.Task;
 using TFortisDeviceManager.Models.Devices;
+using System.Runtime.CompilerServices;
 
 namespace TFortisDeviceManager.ViewModels
 {
@@ -40,9 +41,29 @@ namespace TFortisDeviceManager.ViewModels
         private readonly Dictionary<string, Queue<double>> _lineDataDict;
         private readonly int _maxQueueSize = 10;
         private readonly int _maxPoints = 50;
-        //public static ObservableCollection<MonitoringDevice> MonitoringDevices { get; } = new ObservableCollection<MonitoringDevice>();
-        
+        private readonly IMonitoringEventService _monitoringEventService;
 
+        public GraphicsViewModel(IMonitoringEventService monitoringEventService, ISettingsProvider settingsProvider)
+        {
+            _monitoringEventService = monitoringEventService;
+            _userSettings = settingsProvider.UserSettings;
+
+            MonitoringEventService.DeviceAddedForDashboard += OnDeviceAddedToDashboard;
+
+
+            _lineDataDict = new Dictionary<string, Queue<double>>
+            {
+                { "Series1", new Queue<double>(Enumerable.Repeat(0.0, _maxPoints)) }
+            };
+            _monitoringDevices = new ObservableCollection<MonitoringDevice>();
+            SeriesCollection = new SeriesCollection();
+            LineSeriesCollection = new SeriesCollection();
+            Labels = Enumerable.Range(0, _maxPoints).Select(i => i.ToString()).ToList();
+            InitializeData();
+            UpdateDataAsync();
+        }
+
+        #region всё для графиков
         private SeriesCollection _seriesCollection;
         public SeriesCollection SeriesCollection
         {
@@ -73,19 +94,7 @@ namespace TFortisDeviceManager.ViewModels
                 OnPropertyChanged(nameof(Temperature));
             }
         }
-        public GraphicsViewModel()
-        {
-            _lineDataDict = new Dictionary<string, Queue<double>>
-            {
-                { "Series1", new Queue<double>(Enumerable.Repeat(0.0, _maxPoints)) }
-            };
-            _monitoringDevices = new ObservableCollection<MonitoringDevice>();
-            SeriesCollection = new SeriesCollection();
-            LineSeriesCollection = new SeriesCollection();
-            Labels = Enumerable.Range(0, _maxPoints).Select(i => i.ToString()).ToList();
-            InitializeData();
-            UpdateDataAsync();
-        }
+
 
         private List<string> _labels;
         public List<string> Labels
@@ -151,7 +160,7 @@ namespace TFortisDeviceManager.ViewModels
 
                 UpdatePieChart();
                 UpdateLineChart();
-                UpdateTemperature();
+                //UpdateTemperature();
             }
         }
 
@@ -279,8 +288,10 @@ namespace TFortisDeviceManager.ViewModels
         }
         private void UpdateTemperature()
         {
-            Temperature = _random.Next(-60, 101);
+            Temperature = Temperature;
         }
+
+        #endregion всё для графиков
 
         public event EventHandler<DeviceEventArgs> DeviceAdded;
         public void AddDevice(MonitoringDevice device)
@@ -288,11 +299,7 @@ namespace TFortisDeviceManager.ViewModels
             DeviceAdded?.Invoke(this, new DeviceEventArgs { Device = device });
         }
 
-        // НЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
-
-
-
-        private readonly IUserSettings _userSettings; 
+        private readonly IUserSettings _userSettings;
         private readonly INotificationService _notificationService;
 
         private readonly string statusOk = Resources.StatusOk;
@@ -313,7 +320,7 @@ namespace TFortisDeviceManager.ViewModels
         private SnmpTrapDaemon? snmpTrapD;
         private Task? taskConsumer;
 
-     
+
         private ObservableCollection<MonitoringDevice> _monitoringDevices;
         public ObservableCollection<MonitoringDevice> MonitoringDevices
         {
@@ -323,11 +330,11 @@ namespace TFortisDeviceManager.ViewModels
                 _monitoringDevices = value;
                 OnPropertyChanged(nameof(MonitoringDevices));
             }
-        } 
+        }
 
 
 
-        private double GetUptime(string ip, string community) // норм штучка, пригодится потом 
+        private double GetUptime(string ip, string community) 
         {
             int timeoutWaitingForResponseSnmp = _userSettings.MonitoringSettings.TimeoutWaitingForResponseSnmp;
             var results = Messenger.Get(VersionCode.V1,
@@ -354,19 +361,15 @@ namespace TFortisDeviceManager.ViewModels
             return seconds;
         }
 
-
-   
         public void StartMonitoring()
         {
             MonitoringEvents.Clear();
             Task.Run(() => Run());
             Log.Information("Мониторинг запущен");
         }
-
-
         public async Task Run()
         {
-            bool trapEnable = _userSettings.MonitoringSettings.EnableRecieveTrap;
+            //bool trapEnable = _userSettings.MonitoringSettings.EnableRecieveTrap;
             queueEvents = new BlockingCollection<EventModel>(10000);
             ctsForProducer = new CancellationTokenSource();
             ctsForConsumer = new CancellationTokenSource();
@@ -377,18 +380,18 @@ namespace TFortisDeviceManager.ViewModels
             tasks = new ConcurrentBag<Task>();
 
             // Здесь только одно устройство для мониторинга
-            var selectedDevice = MonitoringDevices.FirstOrDefault(); // поменять с привязкой типа выбрано из таблички ???
+            var selectedDevice = MonitoringDevices.FirstOrDefault(); 
 
             if (selectedDevice != null)
             {
                 tasks.Add(CheckUptimeLoopAsync(selectedDevice, ctsForProducer.Token));
             }
 
-            if (trapEnable)
-            {
+           /* if (trapEnable)
+            {*/
                 snmpTrapD = new SnmpTrapDaemon(queueEvents, ctsForConsumer.Token);
                 snmpTrapD.Start();
-            }
+           //}
 
             await Task.WhenAll(tasks);
             ctsForProducer.Dispose();
@@ -397,6 +400,7 @@ namespace TFortisDeviceManager.ViewModels
 
         private async Task CheckUptimeLoopAsync(MonitoringDevice device, CancellationToken token)
         {
+
             int uptimeValue;
             int uptimePrevious;
             int timeoutCount = 0;
@@ -406,8 +410,10 @@ namespace TFortisDeviceManager.ViewModels
 
             bool sensorsGetRun = false;
 
-            var sensors = PGDataAccess.LoadOidsForMonitroing(device.IpAddress); // Потом поменять когда тема сделает
+            var sensors = PGDataAccess.LoadOidsForDashboard(device.IpAddress); 
+
             var community = PGDataAccess.GetCommunity(device.IpAddress);
+
 
             while (true)
             {
@@ -505,7 +511,7 @@ namespace TFortisDeviceManager.ViewModels
             return sensorValueResult;
         }
 
-        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token) // будут другие сенсоры надо будет обр по другому
+        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token)
         {
             int timeout = sensor.Timeout;
             string sensorValueText = "";
@@ -534,13 +540,28 @@ namespace TFortisDeviceManager.ViewModels
                     int sensorValue = GetSensorValue(sensor, community);
                     string status = DetermineSensorStatus(sensor, sensorValue, ref sensorValueText);
 
-                    if (sensor.Name == "upsPwrSource" && sensorValue == sensor.BadValue)
+                    switch (sensor.Name)
                     {
-                        description = GetUpsPowerSourceDescription(sensor, community);
-                    }
-                    else
-                    {
-                        description = sensor.Description;
+                        case "upsPwrSource": // тип питания
+                            if (sensorValue == sensor.BadValue)
+                            {
+                                description = GetUpsPowerSourceDescription(sensor, community);
+                            }
+                            else
+                            {
+                                description = sensor.Description;
+                            }
+                            break;
+
+                        case "PortPoeStatusPower#1": // добавила
+                            double volt = GetSensorValue(sensor, community);
+                            description = sensor.Description;
+                            Temperature = volt;
+                            break;
+
+                        default:
+                            description = sensor.Description;
+                            break;
                     }
 
                     evnt = CreateEvent(sensor.DeviceName, sensor.Ip, device.Description, device.Location, sensor.Name, sensorValueText, description, status);
@@ -558,48 +579,12 @@ namespace TFortisDeviceManager.ViewModels
                 await Task.Delay(timeout * 1000, token).ConfigureAwait(false);
             }
         }
-
-
-        private string FormatUptime(TimeSpan span)
+        private string GetUpsPowerSourceDescription(Sensor sensor, string community)
         {
-            string uptime = $"{span.Days}{Resources.Day} {span.Hours}{Resources.Minute} {span.Minutes}{Resources.Minute}";
-
-            if (span.Days == 0)
-                uptime = $"{span.Hours}{Resources.Hour} {span.Minutes}{Resources.Minute}";
-
-            if (span.Days == 0 && span.Hours == 0)
-                uptime = $"{span.Minutes}{Resources.Minute}";
-
-            return uptime;
+            double seconds = GetBatteryTime(sensor.Ip!, community);
+            TimeSpan timeLeft = TimeSpan.FromSeconds(seconds);
+            return $"{Resources.TimeLeft} {timeLeft.Hours}h.{timeLeft.Minutes}m";
         }
-
-        private void HandleTimeoutException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus, string descriptionDeviceNotAvilable)
-        {
-            timeoutCount++;
-            if (timeoutCount == 5)
-            {
-                device.Available = false;
-                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, descriptionDeviceNotAvilable, statusProblem);
-                timeoutCount = 0;
-            }
-        }
-
-        private void HandleErrorException(ErrorException ex, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
-        {
-            evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, sensorErrorExceptionValue, ex.Message, statusError);
-        }
-
-        private void HandleSnmpException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
-        {
-            timeoutCount++;
-            if (timeoutCount == 5)
-            {
-                device.Available = false;
-                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, "SNMP Error", statusProblem);
-                timeoutCount = 0;
-            }
-        }
-
         private string DetermineSensorStatus(Sensor sensor, int sensorValue, ref string sensorValueText)
         {
             string status = statusOk;
@@ -634,12 +619,46 @@ namespace TFortisDeviceManager.ViewModels
 
             return status;
         }
-
-        private string GetUpsPowerSourceDescription(Sensor sensor, string community)
+        private string FormatUptime(TimeSpan span)
         {
-            double seconds = GetBatteryTime(sensor.Ip!, community);
-            TimeSpan timeLeft = TimeSpan.FromSeconds(seconds);
-            return $"{Resources.TimeLeft} {timeLeft.Hours}h.{timeLeft.Minutes}m";
+            string uptime = $"{span.Days}{Resources.Day} {span.Hours}{Resources.Minute} {span.Minutes}{Resources.Minute}";
+
+            if (span.Days == 0)
+                uptime = $"{span.Hours}{Resources.Hour} {span.Minutes}{Resources.Minute}";
+
+            if (span.Days == 0 && span.Hours == 0)
+                uptime = $"{span.Minutes}{Resources.Minute}";
+
+            return uptime;
+        }
+
+        #region обработка ошибок
+
+        private void HandleTimeoutException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus, string descriptionDeviceNotAvilable)
+        {
+            timeoutCount++;
+            if (timeoutCount == 5)
+            {
+                device.Available = false;
+                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, descriptionDeviceNotAvilable, statusProblem);
+                timeoutCount = 0;
+            }
+        }
+
+        private void HandleErrorException(ErrorException ex, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        {
+            evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, sensorErrorExceptionValue, ex.Message, statusError);
+        }
+
+        private void HandleSnmpException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        {
+            timeoutCount++;
+            if (timeoutCount == 5)
+            {
+                device.Available = false;
+                evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, "SNMP Error", statusProblem);
+                timeoutCount = 0;
+            }
         }
 
         public void Dispose()
@@ -650,11 +669,9 @@ namespace TFortisDeviceManager.ViewModels
             ctsForConsumer?.Dispose();
         }
 
+        #endregion бработка ошибок
 
-        // НЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
-
-        public static ObservableCollection<EventModel> MonitoringEvents { get; } = new ObservableCollection<EventModel>();
-        
+        #region ивенты 
         public static EventModel CreateEvent(string deviceName, string ip, string deviceDescription, string deviceLocation, string sensorName, string sensorValueText, string description, string status)
         {
             return new EventModel()
@@ -670,18 +687,33 @@ namespace TFortisDeviceManager.ViewModels
                 DeviceLocation = deviceLocation
             };
         }
+        public ObservableCollection<DashboardDevice> MonitoringEvents { get; } = new ObservableCollection<DashboardDevice>();
+        private void OnDeviceAddedToDashboard(object sender, DeviceAddedEventArgs e)
+        {
+            if (e.Device is MonitoringDevice dashboardDevice)
+            {
+                MonitoringDevice monitoringDevice = e.Device;
+                DashboardDevice device = new(monitoringDevice.Id, 
+                    monitoringDevice.Name, 
+                    monitoringDevice.IpAddress, 
+                    monitoringDevice.Location, 
+                    monitoringDevice.Description, 
+                    monitoringDevice.Firmware, 
+                    monitoringDevice.Uptime);
 
+                MonitoringDevices.Add(device);
 
+                StartMonitoring();
+            }
+        }
+        #endregion ивенты
 
-        /// <summary>
-        /// jujuujdjd
-        /// </summary>
-        /// <param name="name"></param>
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
+
 
 

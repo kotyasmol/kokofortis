@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Globalization;
 using TFortisDeviceManager.Database.EntityDataModel;
 using TFortisDeviceManager.Models.Devices;
+using DynamicData;
 
 namespace TFortisDeviceManager.Database
 {
@@ -582,8 +583,44 @@ namespace TFortisDeviceManager.Database
             }
 
             return Sensors;
-        }      
-        
+        }
+
+        public static List<Sensor> LoadOidsForDashboard(string deviceIP)
+        {
+            using TfortisdbContext database = new();
+
+            List<Sensor> Sensors = new();
+
+            var deviceForMonitoring = database.DeviceForMonitoring.Where(t => t.Ip == deviceIP).FirstOrDefault();
+
+            var deviceType = database.DeviceTypes.Where(t => deviceForMonitoring.DeviceTypeId == t.Id).FirstOrDefault();
+
+            var result = database.OidsForDevices.Where(x => x.DeviceTypeId == deviceType.Id).ToList();
+
+            foreach (var oid in result)
+            {
+                Sensor sensor = new()
+                {
+                    Key = oid.Key,
+                    Ip = deviceIP,
+                    Name = oid.Name,
+                    Address = oid.Address,
+                    DeviceName = deviceType.Name,
+                    Description = oid.Description,
+                    OkValue = oid.OkValue,
+                    OkValueText = oid.OkValueText,
+                    BadValue = oid.BadValue,
+                    BadValueText = oid.BadValueText,
+                    Invertible = Convert.ToBoolean(oid.Invertible),
+                    Timeout = oid.Timeout,
+                };
+
+                Sensors.Add(sensor);
+            }
+
+            return Sensors;
+        }
+
         public static List<OidsForDevice> GetOidsForMonitoring(string deviceIP) // вот про это говорил тема
         {
             using TfortisdbContext database = new();
