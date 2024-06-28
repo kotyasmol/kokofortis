@@ -26,6 +26,9 @@ using Serilog;
 using Task = System.Threading.Tasks.Task;
 using TFortisDeviceManager.Models.Devices;
 using System.Runtime.CompilerServices;
+using HandyControl.Tools.Extension;
+using TFortisDeviceManager.Converters;
+using DynamicData;
 
 namespace TFortisDeviceManager.ViewModels
 {
@@ -36,6 +39,8 @@ namespace TFortisDeviceManager.ViewModels
     public sealed class GraphicsViewModel : Screen, INotifyPropertyChanged, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+
         private readonly Random _random = new Random();
         private readonly Queue<QGraphics> _dataQueue = new Queue<QGraphics>();
         private readonly Dictionary<string, Queue<double>> _lineDataDict;
@@ -45,23 +50,27 @@ namespace TFortisDeviceManager.ViewModels
 
         public GraphicsViewModel(IMonitoringEventService monitoringEventService, ISettingsProvider settingsProvider)
         {
+
             _monitoringEventService = monitoringEventService;
             _userSettings = settingsProvider.UserSettings;
 
             MonitoringEventService.DeviceAddedForDashboard += OnDeviceAddedToDashboard;
 
+            // добавить заполнение таблицы из базы данных
 
             _lineDataDict = new Dictionary<string, Queue<double>>
             {
                 { "Series1", new Queue<double>(Enumerable.Repeat(0.0, _maxPoints)) }
             };
-            _monitoringDevices = new ObservableCollection<MonitoringDevice>();
+            _monitoringDevices = new ObservableCollection<DashboardDevice>();
             SeriesCollection = new SeriesCollection();
             LineSeriesCollection = new SeriesCollection();
             Labels = Enumerable.Range(0, _maxPoints).Select(i => i.ToString()).ToList();
             InitializeData();
             UpdateDataAsync();
         }
+
+
 
         #region всё для графиков
         private SeriesCollection _seriesCollection;
@@ -302,6 +311,7 @@ namespace TFortisDeviceManager.ViewModels
         private readonly IUserSettings _userSettings;
         private readonly INotificationService _notificationService;
 
+
         private readonly string statusOk = Resources.StatusOk;
         private readonly string statusProblem = Resources.StatusProblem;
         private readonly string statusError = Resources.StatusError;
@@ -321,8 +331,8 @@ namespace TFortisDeviceManager.ViewModels
         private Task? taskConsumer;
 
 
-        private ObservableCollection<MonitoringDevice> _monitoringDevices;
-        public ObservableCollection<MonitoringDevice> MonitoringDevices
+        private ObservableCollection<DashboardDevice> _monitoringDevices;
+        public ObservableCollection<DashboardDevice> MonitoringDevices
         {
             get { return _monitoringDevices; }
             set
@@ -369,7 +379,7 @@ namespace TFortisDeviceManager.ViewModels
         }
         public async Task Run()
         {
-            //bool trapEnable = _userSettings.MonitoringSettings.EnableRecieveTrap;
+            bool trapEnable = _userSettings.MonitoringSettings.EnableRecieveTrap;
             queueEvents = new BlockingCollection<EventModel>(10000);
             ctsForProducer = new CancellationTokenSource();
             ctsForConsumer = new CancellationTokenSource();
@@ -387,18 +397,18 @@ namespace TFortisDeviceManager.ViewModels
                 tasks.Add(CheckUptimeLoopAsync(selectedDevice, ctsForProducer.Token));
             }
 
-           /* if (trapEnable)
-            {*/
+            if (trapEnable)
+            {
                 snmpTrapD = new SnmpTrapDaemon(queueEvents, ctsForConsumer.Token);
                 snmpTrapD.Start();
-           //}
+           }
 
             await Task.WhenAll(tasks);
             ctsForProducer.Dispose();
             ctsForConsumer.Dispose();
         }
 
-        private async Task CheckUptimeLoopAsync(MonitoringDevice device, CancellationToken token)
+        private async Task CheckUptimeLoopAsync(DashboardDevice device, CancellationToken token)
         {
 
             int uptimeValue;
@@ -433,7 +443,6 @@ namespace TFortisDeviceManager.ViewModels
                 try
                 {
                     uptimeValue = (int)GetUptime(device.IpAddress, community);
-                    device.Available = true;
 
                     if (uptimeValue < uptimePrevious)
                     {
@@ -482,16 +491,15 @@ namespace TFortisDeviceManager.ViewModels
             }
         }
 
-        private async Task RunReadSensorsAsync(List<Sensor> sensors, MonitoringDevice device, CancellationToken token)
+        private async Task RunReadSensorsAsync(List<Sensor> sensors, DashboardDevice device, CancellationToken token)
         {
             int delayBetweenTaskReadSensorValueLoop = _userSettings.MonitoringSettings.DelayBetweenTaskReadSensorValueLoop;
 
             foreach (var sensor in sensors)
             {
-                if (sensor.Enable)
-                {
+                
                     tasks.Add(ReadSensorValueLoop(sensor, device, token));
-                }
+                
 
                 await Task.Delay(delayBetweenTaskReadSensorValueLoop, token).ConfigureAwait(false);
             }
@@ -511,14 +519,14 @@ namespace TFortisDeviceManager.ViewModels
             return sensorValueResult;
         }
 
-        private async Task ReadSensorValueLoop(Sensor sensor, MonitoringDevice device, CancellationToken token)
+        private async Task ReadSensorValueLoop(Sensor sensor, DashboardDevice device, CancellationToken token)
         {
             int timeout = sensor.Timeout;
             string sensorValueText = "";
 
             var community = PGDataAccess.GetCommunity(device.IpAddress);
 
-            while (sensor.Enable)
+            while (true)
             {
                 if (token.IsCancellationRequested)
                 {
@@ -526,11 +534,11 @@ namespace TFortisDeviceManager.ViewModels
                     break;
                 }
 
-                if (!device.Available)
+               /* if (!device.Available)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(timeout), token).ConfigureAwait(false);
                     continue;
-                }
+                }*/
 
                 EventModel? evnt = null;
 
@@ -553,7 +561,7 @@ namespace TFortisDeviceManager.ViewModels
                             }
                             break;
 
-                        case "PortPoeStatusPower#1": // добавила
+                        case "portPoeStatusPower#1": // добавила
                             double volt = GetSensorValue(sensor, community);
                             description = sensor.Description;
                             Temperature = volt;
@@ -632,30 +640,32 @@ namespace TFortisDeviceManager.ViewModels
             return uptime;
         }
 
+
+
         #region обработка ошибок
 
-        private void HandleTimeoutException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus, string descriptionDeviceNotAvilable)
+        private void HandleTimeoutException(ref int timeoutCount, DashboardDevice device, ref EventModel? evnt, string sensorNameHostStatus, string descriptionDeviceNotAvilable)
         {
             timeoutCount++;
             if (timeoutCount == 5)
             {
-                device.Available = false;
+               // device.Available = false;
                 evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, descriptionDeviceNotAvilable, statusProblem);
                 timeoutCount = 0;
             }
         }
 
-        private void HandleErrorException(ErrorException ex, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        private void HandleErrorException(ErrorException ex, DashboardDevice device, ref EventModel? evnt, string sensorNameHostStatus)
         {
             evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, sensorErrorExceptionValue, ex.Message, statusError);
         }
 
-        private void HandleSnmpException(ref int timeoutCount, MonitoringDevice device, ref EventModel? evnt, string sensorNameHostStatus)
+        private void HandleSnmpException(ref int timeoutCount, DashboardDevice device, ref EventModel? evnt, string sensorNameHostStatus)
         {
             timeoutCount++;
             if (timeoutCount == 5)
             {
-                device.Available = false;
+                //device.Available = false;
                 evnt = CreateEvent(device.Name, device.IpAddress, device.Description, device.Location, sensorNameHostStatus, hostStatusDisabled, "SNMP Error", statusProblem);
                 timeoutCount = 0;
             }
@@ -693,15 +703,11 @@ namespace TFortisDeviceManager.ViewModels
             if (e.Device is MonitoringDevice dashboardDevice)
             {
                 MonitoringDevice monitoringDevice = e.Device;
-                DashboardDevice device = new(monitoringDevice.Id, 
-                    monitoringDevice.Name, 
-                    monitoringDevice.IpAddress, 
-                    monitoringDevice.Location, 
-                    monitoringDevice.Description, 
-                    monitoringDevice.Firmware, 
-                    monitoringDevice.Uptime);
 
-                MonitoringDevices.Add(device);
+
+                DashboardDevice ddevice = monitoringDevice.ToDashboardDevice();
+
+                MonitoringDevices.Add(ddevice); 
 
                 StartMonitoring();
             }

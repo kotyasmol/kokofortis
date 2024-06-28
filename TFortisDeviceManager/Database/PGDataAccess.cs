@@ -72,7 +72,14 @@ namespace TFortisDeviceManager.Database
             var entity = database.DeviceForMonitoring.Where(t => t.Ip == device.IpAddress && t.Mac == device.Mac).FirstOrDefault();
             return entity?.Uptime ?? 0;
         }
-        
+
+        public static int GetUptime(DashboardDevice device)
+        {
+            using TfortisdbContext database = new();
+            var entity = database.DeviceForMonitoring.Where(t => t.Ip == device.IpAddress).FirstOrDefault();
+            return entity?.Uptime ?? 0;
+        }
+
         public static void SetUptime(MonitoringDevice device)
         {
             using TfortisdbContext database = new();
@@ -491,41 +498,6 @@ namespace TFortisDeviceManager.Database
             using TfortisdbContext database = new();
 
             List<Sensor> Sensors = new();
-            /*
-                        var deviceForMonitoring = database.DeviceForMonitoring.Where(t => t.Ip == deviceIP).FirstOrDefault();
-
-                        if (deviceForMonitoring == null) return Sensors;
-
-                        var deviceType = database.DeviceTypes.Where(t => deviceForMonitoring.DeviceTypeId == t.Id).FirstOrDefault();
-
-                        var deviceAndOids = database.DeviceAndOids.Where(t => t.DeviceForMonitoringKey == deviceType.Id)
-                            .ToList()
-                            .OrderBy(x => x.Key)
-                            .Reverse();
-
-                        deviceAndOids = deviceAndOids.DistinctBy(t => t.OidForDeviceKey);
-
-                        var result = deviceAndOids.Join(database.OidsForDevices, 
-                            t => t.OidForDeviceKey, 
-                            d => d.Key, 
-                            (t, d) => new 
-                            {
-                                Key = t.OidForDeviceKey,
-                                deviceForMonitoring.Ip,
-                                d.Address,
-                                d.Name,
-                                d.Description,
-                                d.OkValue,
-                                d.OkValueText,
-                                d.BadValue,
-                                d.BadValueText,
-                                t.Timeout,
-                                t.Invertible,
-                                t.Invert,
-                                t.Enable,
-                                t.SendEmail,
-                                DeviceName = deviceType?.Name,
-                            });*/
 
             var deviceForMonitoring = database.DeviceForMonitoring.Where(t => t.Ip == deviceIP).FirstOrDefault();
 
@@ -595,7 +567,7 @@ namespace TFortisDeviceManager.Database
 
             var deviceType = database.DeviceTypes.Where(t => deviceForMonitoring.DeviceTypeId == t.Id).FirstOrDefault();
 
-            var result = database.OidsForDevices.Where(x => x.DeviceTypeId == deviceType.Id).ToList();
+            var result = database.OidsForDashboard.Where(x => x.DeviceTypeId == deviceType.Id).ToList();
 
             foreach (var oid in result)
             {

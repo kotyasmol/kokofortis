@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using TFortisDeviceManager.Models.Devices;
 
 namespace TFortisDeviceManager.Models
 {
@@ -128,6 +129,14 @@ namespace TFortisDeviceManager.Models
 
             return builder.ToString();
         }
+
+        public DashboardDevice ToDashboardDevice()
+        {
+            DashboardDevice device = new(Id, Name, IpAddress, Location,  Description, Firmware, Uptime);
+
+            return device;
+        }
+
 
         public override string ToString()
         {
